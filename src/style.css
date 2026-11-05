@@ -382,7 +382,9 @@ kbd {
 	appearance: none;
 	font: inherit;
 	font-weight: 900;
-	font-size: 0.95rem;
+	/* スマホの幅でも「むずかしい」が1行に収まるように */
+	font-size: clamp(0.78rem, 3.6vw, 0.95rem);
+	white-space: nowrap;
 	padding: 0.55em 0.2em;
 	border: 3px solid var(--sumi);
 	border-radius: 12px;

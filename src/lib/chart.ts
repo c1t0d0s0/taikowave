@@ -70,8 +70,12 @@ export function sourceFromAbc(abc: string): SourceSong {
 			e.cmd === "note" ? [{ start: e.start, duration: e.duration, pitch: e.pitch, volume: e.volume }] : [],
 		),
 	);
+	// seq.tempo は拍子の1拍（2/2 なら2分音符、6/8 なら付点4分音符）を単位にした値なので、
+	// 再生と同じ millisecondsPerMeasure から4分音符/分に直す
+	const msPerMeasure = tune.millisecondsPerMeasure();
+	const tempo = msPerMeasure > 0 ? (240 * (num / den) * 1000) / msPerMeasure : seq.tempo;
 	return {
-		tempo: seq.tempo,
+		tempo,
 		measureLength: num / den,
 		beatLength: 1 / den,
 		tracks,

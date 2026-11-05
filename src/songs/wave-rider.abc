@@ -1,0 +1,30 @@
+X:1
+T:なみのり太鼓
+T:Wave Rider
+C:作曲 太鼓ウェーブ オリジナル
+S:太鼓ウェーブのための書き下ろし（2026年）
+Z:TaikoWave (CC0)
+M:4/4
+L:1/8
+Q:1/4=116
+%%score [Melody Bass]
+V:Melody name="木琴" snm="木琴"
+V:Bass name="低音" snm="低" clef=bass
+K:G
+% 高い音の「呼びかけ」と低い音の「応え」が2小節ずつ掛け合う。初級の仕上げ
+% %%MIDI program: 13 木琴 / 33 ベース（General MIDI）
+% %%MIDI beat: 小節の1拍目・表拍・裏拍の強さ（0〜127）
+V:Melody
+%%MIDI program 13
+%%MIDI beat 115 100 85 1
+V:Bass
+%%MIDI program 33
+%%MIDI beat 85 70 60 1
+[V:Melody] d2 B2 d2 g2 | e2 d2 B4 | G,2 B,2 D2 G2 | E2 D2 B,4 |
+[V:Bass] G,,4 D,4 | E,,4 B,,4 | G,,4 D,4 | E,,4 B,,4 |
+[V:Melody] c2 A2 c2 e2 | d2 c2 A4 | D2 F2 A2 d2 | c2 A2 D4 |
+[V:Bass] A,,4 E,4 | D,4 A,,4 | D,4 A,,4 | D,4 A,,4 |
+[V:Melody] B2 dd g2 dd | e2 g2 d4 | G2 BB d2 BB | c2 A2 G4 |
+[V:Bass] G,,4 D,4 | C,4 G,,4 | G,,4 D,4 | D,4 G,,4 |
+[V:Melody] e2 dB c2 BA | B2 G2 A2 F2 | G2 B2 d2 B2 | G8 |]
+[V:Bass] C,4 G,,4 | D,4 A,,4 | G,,4 D,4 | G,,8 |]

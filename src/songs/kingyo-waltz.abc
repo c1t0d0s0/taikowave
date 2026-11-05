@@ -1,0 +1,42 @@
+X:1
+T:金魚すくいワルツ
+T:Goldfish Waltz
+C:作曲 太鼓ウェーブ オリジナル
+S:太鼓ウェーブのための書き下ろし（2026年）
+Z:TaikoWave (CC0)
+M:3/4
+L:1/8
+Q:1/4=120
+%%score [Melody Bass]
+V:Melody name="マリンバ" snm="マ"
+V:Bass name="低音" snm="低" clef=bass
+K:F
+% 3拍子のワルツ。1拍目のドンと、ゆらぐ8分音符の旋律。いちばん細かい音符は8分音符（「ふつう」向け）
+% %%MIDI program: 12 マリンバ / 33 ベース（General MIDI）
+% %%MIDI beat: 小節の1拍目・表拍・裏拍の強さ（0〜127）
+V:Melody
+%%MIDI program 12
+%%MIDI beat 115 95 85 1
+V:Bass
+%%MIDI program 33
+%%MIDI beat 78 60 55 1
+% ---- A ----
+[V:Melody] !accent!F2 AG FA | c2 dc BA | !accent!G2 Bc dB | A4 z2 |
+[V:Bass] F,,2 C,2 C,2 | F,,2 C,2 C,2 | C,,2 G,,2 G,,2 | F,,2 C,2 C,2 |
+[V:Melody] !accent!F2 AG FA | c2 fe dc | !accent!B2 AG EG | F4 z2 |
+[V:Bass] F,,2 C,2 C,2 | F,,2 C,2 C,2 | C,,2 G,,2 G,,2 | F,,2 C,2 C,2 |
+% ---- B（ゆらぐ旋律） ----
+[V:Melody] !accent!d2 d2 cB | A2 A2 GF | !accent!G2 AB c2- | c2 BA G2 |
+[V:Bass] B,,,2 F,,2 F,,2 | F,,2 C,2 C,2 | C,,2 G,,2 G,,2 | C,,2 G,,2 G,,2 |
+[V:Melody] !accent!d2 d2 cB | A2 A2 GF | !accent!E2 FG AB | c4 z2 |
+[V:Bass] B,,,2 F,,2 F,,2 | F,,2 C,2 C,2 | C,,2 G,,2 G,,2 | F,,2 C,2 C,2 |
+% ---- C（くるくる回る8分音符） ----
+[V:Melody] !accent!fe dc BA | !accent!GA Bc de | !accent!f2 c2 A2 | F4 z2 |
+[V:Bass] B,,,2 F,,2 F,,2 | C,,2 G,,2 G,,2 | F,,2 C,2 C,2 | F,,2 C,2 C,2 |
+[V:Melody] !accent!ga ba gf | !accent!ef ge c2 | !accent!fe dc BG | !accent!F4 z2 |
+[V:Bass] C,,2 G,,2 G,,2 | C,,2 G,,2 G,,2 | C,,2 G,,2 G,,2 | F,,2 C,2 C,2 |
+% ---- A' ----
+[V:Melody] !accent!F2 AG FA | c2 dc BA | !accent!G2 Bc dB | A4 z2 |
+[V:Bass] F,,2 C,2 C,2 | F,,2 C,2 C,2 | C,,2 G,,2 G,,2 | F,,2 C,2 C,2 |
+[V:Melody] !accent!c2 fe dc | !accent!B2 dc BG | !accent!A2 GE FG | !accent!F6 |]
+[V:Bass] F,,2 C,2 C,2 | B,,,2 F,,2 F,,2 | C,,2 G,,2 G,,2 | F,,6 |]

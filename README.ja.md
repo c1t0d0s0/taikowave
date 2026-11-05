@@ -67,4 +67,5 @@ GA4 の「拡張計測機能」の「ブラウザの履歴イベントに基づ�
 
 - ソースコード: MIT License（[LICENSE](LICENSE)）
 - 曲の ABC 譜: CC0 1.0（ABC 譜面スタジオによる書き起こし）。作曲者はいずれも著作権の保護期間が満了しています
+- オリジナル曲（`matsuri-debut`・`lantern-march`・`wave-rider`・`yagura-groove`・`starmine`・`storm-odaiko`・`kingyo-waltz`・`bon-odori`・`yatai-rush`・`summer-thunder`・`dragon-dance`・`grand-finale`）: このプロジェクトのための書き下ろし。CC0 1.0
 - サードパーティ: [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)

@@ -23,6 +23,13 @@ Google Fonts から Dela Gothic One と Zen Maru Gothic を読み込みます（
 
 ## 楽曲
 
-`src/songs/*.abc` は [ABC 譜面スタジオ](https://github.com/c1t0d0s0/music-abc) の収録曲をそのままコピーしたものです（CC0 1.0）。
+次の曲は、このプロジェクトのオリジナル曲です（CC0 1.0）。
+
+- 初級向け: `matsuri-debut.abc`・`lantern-march.abc`・`wave-rider.abc`
+- ふつう向け: `yagura-groove.abc`・`kingyo-waltz.abc`・`bon-odori.abc`
+- むずかしい向け: `starmine.abc`・`yatai-rush.abc`・`summer-thunder.abc`
+- げきむず向け: `storm-odaiko.abc`・`dragon-dance.abc`・`grand-finale.abc`
+
+それ以外の `src/songs/*.abc` は [ABC 譜面スタジオ](https://github.com/c1t0d0s0/music-abc) の収録曲をそのままコピーしたものです（CC0 1.0）。
 作曲者（ヴィヴァルディ、ショパン、メンデルスゾーン、ルージェ・ド・リール）はいずれも 1967 年以前に亡くなっており、
 日本の著作権法で保護期間が満了しています。

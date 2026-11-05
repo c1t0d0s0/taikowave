@@ -57,3 +57,15 @@ describe.each(SONGS.map((s) => s.id))("%s の譜面", (id) => {
 		for (const n of charts.hard!.notes) expect(onsets.has(Math.round((n.time / secPerWhole) * 960))).toBe(true);
 	});
 });
+
+describe("テンポ", () => {
+	// abcjs の seq.tempo は拍子の1拍が単位なので、2/2 や 6/8 では4分音符/分と違う
+	it.each([
+		["yagura-groove", 120], // 4/4, Q:1/4=120
+		["mendelssohn-violin-concerto-1", 224], // 2/2, Q:1/2=112
+		["summer-thunder", 189], // 6/8, Q:1/4=189（付点4分 = 126）
+	])("%s は4分音符/分で %d", (id, bpm) => {
+		const src = sourceFromAbc(fs.readFileSync(path.join(dir, `${id}.abc`), "utf8"));
+		expect(src.tempo).toBeCloseTo(bpm, 6);
+	});
+});

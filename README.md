@@ -67,4 +67,5 @@ Turn off "Page changes based on browser history events" under GA4's Enhanced mea
 
 - Source code: MIT License ([LICENSE](LICENSE))
 - Song ABC scores: CC0 1.0 (transcribed by ABC Score Studio). The copyright term of every composer's work has expired
+- Original songs (`matsuri-debut`, `lantern-march`, `wave-rider`, `yagura-groove`, `starmine`, `storm-odaiko`, `kingyo-waltz`, `bon-odori`, `yatai-rush`, `summer-thunder`, `dragon-dance`, `grand-finale`): composed for this project, CC0 1.0
 - Third-party: [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)

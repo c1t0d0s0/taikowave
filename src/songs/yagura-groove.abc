@@ -1,0 +1,37 @@
+X:1
+T:やぐらの上で
+T:Yagura Groove
+C:作曲 太鼓ウェーブ オリジナル
+S:太鼓ウェーブのための書き下ろし（2026年）
+Z:TaikoWave (CC0)
+M:4/4
+L:1/8
+Q:1/4=120
+%%score [Melody Bass]
+V:Melody name="三味線" snm="三"
+V:Bass name="低音" snm="低" clef=bass
+K:D
+% 拍をまたぐタイと休符で「裏で叩く」リズムを練習する。いちばん細かい音符は8分音符（「ふつう」向け）
+% %%MIDI program: 105 三味線 / 33 ベース（General MIDI）
+% %%MIDI beat: 小節の1拍目・表拍・裏拍の強さ（0〜127）
+V:Melody
+%%MIDI program 105
+%%MIDI beat 115 100 90 1
+V:Bass
+%%MIDI program 33
+%%MIDI beat 85 70 60 1
+% ---- A ----
+[V:Melody] D2 FA- A2 FA | d2 cB A4 | B2 GB- B2 GB | A2 GF E4 |
+[V:Bass] D,2 A,,2 D,2 A,,2 | D,2 A,,2 D,2 A,,2 | G,,2 D,2 G,,2 D,2 | A,,2 E,2 A,,2 E,2 |
+[V:Melody] D2 FA- A2 FA | d2 fe- e2 dc | B2 Bc d2 cB | A6 z2 |
+[V:Bass] D,2 A,,2 D,2 A,,2 | A,,2 E,2 A,,2 E,2 | G,,2 D,2 G,,2 D,2 | A,,2 E,2 A,,2 E,2 |
+% ---- B（休符から入る裏拍） ----
+[V:Melody] z F A d z F A d | z G B e z G B e | z A c e a2 ga | f2 e2 d4 |
+[V:Bass] D,2 A,,2 D,2 A,,2 | E,2 B,,2 E,2 B,,2 | A,,2 E,2 A,,2 E,2 | D,2 A,,2 D,2 A,,2 |
+[V:Melody] z F A d z F A d | z G B e z G B e | f2 ed- d2 cB | A6 z2 |
+[V:Bass] D,2 A,,2 D,2 A,,2 | E,2 B,,2 E,2 B,,2 | A,,2 E,2 A,,2 E,2 | A,,2 E,2 A,,2 E,2 |
+% ---- C（さび） ----
+[V:Melody] a2 fa- a2 fd | e2 fg- g2 fe | d2 Bd- d2 cB | A2 FA- A4 |
+[V:Bass] D,2 A,,2 D,2 A,,2 | A,,2 E,2 A,,2 E,2 | G,,2 D,2 G,,2 D,2 | D,2 A,,2 D,2 A,,2 |
+[V:Melody] a2 fa- a2 fd | e2 fg- g2 ag | f2 ed c2 de | d8 |]
+[V:Bass] D,2 A,,2 D,2 A,,2 | A,,2 E,2 A,,2 E,2 | G,,2 G,,2 A,,2 A,,2 | D,8 |]

@@ -1,0 +1,37 @@
+X:1
+T:盆踊りの輪
+T:Bon Dance Circle
+C:作曲 太鼓ウェーブ オリジナル
+S:太鼓ウェーブのための書き下ろし（2026年）
+Z:TaikoWave (CC0)
+M:4/4
+L:1/8
+Q:1/4=116
+%%score [Melody Bass]
+V:Melody name="尺八" snm="尺"
+V:Bass name="低音" snm="低" clef=bass
+K:G
+% ヨナ抜き音階（ソ・ラ・シ・レ・ミ）の呼びかけと応え。音を伸ばしたあとの休符で一息つく。いちばん細かい音符は8分音符（「ふつう」向け）
+% %%MIDI program: 77 尺八 / 33 ベース（General MIDI）
+% %%MIDI beat: 小節の1拍目・表拍・裏拍の強さ（0〜127）
+V:Melody
+%%MIDI program 77
+%%MIDI beat 115 100 90 1
+V:Bass
+%%MIDI program 33
+%%MIDI beat 78 68 60 1
+% ---- A（呼びかけ） ----
+[V:Melody] !accent!G2 AB d4 | !accent!e2 dB A2 z2 | !accent!B2 AG A2 Bd | !accent!e2 de d2 z2 |
+[V:Bass] G,,2z2 D,2z2 | E,,2z2 B,,2z2 | G,,2z2 D,2z2 | E,,2z2 B,,2z2 |
+[V:Melody] !accent!g2 ed e2 g2 | !accent!a2 ge d2 z2 | !accent!e2 dB A2 GA | !accent!G2 AB G2 z2 |
+[V:Bass] E,,2z2 B,,2z2 | D,,2z2 A,,2z2 | A,,2z2 E,2z2 | G,,2z2 D,2z2 |
+% ---- B（応え。休符から入る） ----
+[V:Melody] !accent!d2 dd e2 dB | z B AB d2 de | !accent!e2 ee g2 ed | z e dB A2 Bd |
+[V:Bass] G,,2z2 D,2z2 | z4 D,2z2 | E,,2z2 B,,2z2 | z4 E,2z2 |
+[V:Melody] !accent!g2 ga b2 ag | z g ed e2 ga | !accent!d2 BA G2 AB | !accent!A6 z2 |
+[V:Bass] E,,2z2 B,,2z2 | z4 B,,2z2 | G,,2z2 D,2z2 | D,,2z2 A,,2z2 |
+% ---- C（輪が大きくなる） ----
+[V:Melody] !accent!b2 ag a2 ge | !accent!g2 ed e2 dB | !accent!d2 ed B2 AB | !accent!d2 Bd e2 z2 |
+[V:Bass] E,,2z2 B,,2z2 | C,,2z2 G,,2z2 | G,,2z2 D,2z2 | D,,2z2 A,,2z2 |
+[V:Melody] !accent!g2 ag e2 dB | !accent!A2 Bd e2 dB | !accent!A2 GA B2 AB | !accent!G8 |]
+[V:Bass] E,,2z2 B,,2z2 | A,,2z2 E,2z2 | D,,2z2 A,,2z2 | G,,8 |]
