@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+	<defs>
+		<radialGradient id="rim" cx="38%" cy="32%" r="70%">
+			<stop offset="0" stop-color="#ff7a45"/>
+			<stop offset="1" stop-color="#c22a0f"/>
+		</radialGradient>
+		<radialGradient id="head" cx="40%" cy="35%" r="70%">
+			<stop offset="0" stop-color="#fffbf2"/>
+			<stop offset="1" stop-color="#f0dcb0"/>
+		</radialGradient>
+	</defs>
+	<circle cx="32" cy="32" r="29.5" fill="url(#rim)" stroke="#3a1d0e" stroke-width="3"/>
+	<g fill="#ffc531" stroke="#3a1d0e" stroke-width="0.8">
+		<circle cx="32" cy="7.2" r="2.1"/><circle cx="49.5" cy="14.5" r="2.1"/><circle cx="56.8" cy="32" r="2.1"/><circle cx="49.5" cy="49.5" r="2.1"/>
+		<circle cx="32" cy="56.8" r="2.1"/><circle cx="14.5" cy="49.5" r="2.1"/><circle cx="7.2" cy="32" r="2.1"/><circle cx="14.5" cy="14.5" r="2.1"/>
+	</g>
+	<circle cx="32" cy="32" r="19.5" fill="url(#head)" stroke="#3a1d0e" stroke-width="2.5"/>
+	<path d="M19.5 27.5c3-4 6.5-4 9.5 0s6.5 4 9.5 0 4.5-3.5 6-1.5" fill="none" stroke="#e8380d" stroke-width="3.4" stroke-linecap="round"/>
+	<path d="M19.5 37c3-4 6.5-4 9.5 0s6.5 4 9.5 0 4.5-3.5 6-1.5" fill="none" stroke="#2b8fd8" stroke-width="3.4" stroke-linecap="round"/>
+</svg>

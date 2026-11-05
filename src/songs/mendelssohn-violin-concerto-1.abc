@@ -1,0 +1,60 @@
+X:1
+T:ヴァイオリン協奏曲 ホ短調 第1楽章
+T:Violin Concerto in E minor, Op. 64 - 1st movement
+C:作曲 フェリックス・メンデルスゾーン
+S:作品64（1844年作曲、1845年出版）、第1楽章冒頭〜第1主題部
+Z:c1t0d0s0 (CC0)
+M:2/2
+L:1/8
+Q:"Allegro molto appassionato" 1/2=112
+%%score Solo {RH | LH}
+V:Solo name="Violino solo" snm="Vn."
+V:RH name="Pianoforte" snm="Pf." clef=treble
+V:LH clef=bass
+K:Em
+% 再生時の音色と音量。独奏ヴァイオリンがはっきり聞こえるよう、ピアノ伴奏は弱めにする
+% %%MIDI program: 40 バイオリン（General MIDI）
+% %%MIDI beat: 小節の1拍目・表拍・裏拍の強さ（0〜127）
+V:Solo
+%%MIDI program 40
+%%MIDI beat 110 105 100 1
+V:RH
+%%MIDI beat 60 55 50 1
+V:LH
+%%MIDI beat 60 55 50 1
+[V:Solo] z8 | z4 b3 b | b4 g2 e'2 | e'4 b2 g'2 |
+[V:RH] z EGB eBGE | B,EGB eBGE | B,EGB eBGE | B,EGB eBGE |
+[V:LH] [E,,E,]4 z4 | [E,,E,]4 z4 | [E,,E,]4 z4 | [E,,E,]4 z4 |
+[V:Solo] f'2 e'2 c'2 e'2 | b6 b2 | c'2 ba a2 a2 | e'6 b2 |
+[V:RH] CEAc ecAE | B,EGB eBGE | CEAc ecAE | B,EGB eBGE |
+[V:LH] [C,E,A,]4 z4 | [B,,E,G,]4 z4 | [A,,E,A,]4 z4 | [E,,B,,E,]4 z4 |
+[V:Solo] c'2 ba a2 a2 | ^d'4 b3 b | b4 g2 e'2 | e'4 b2 g'2 |
+[V:RH] CEAc ecAE | B,^DFA BAF^D | B,EGB eBGE | B,EGB eBGE |
+[V:LH] [A,,E,A,]4 z4 | [B,,F,A,]4 z4 | [E,,B,,E,]4 z4 | [E,,B,,E,]4 z4 |
+[V:Solo] f'2 e'2 c'2 e'2 | b6 ga | b2 bb d'c' c'b | e'c' ba a2 a2 |
+[V:RH] CEAc ecAE | B,EGB eBGE | DGBd EGce | CEAc ^DFAB |
+[V:LH] [A,,E,A,]4 z4 | [E,,B,,E,]4 z4 | [B,,G,D]4 [C,G,E]4 | [A,,E,A,]4 [B,,F,A,]4 |
+[V:Solo] f2 g2 a2 b2 | b4 g2 ga | b2 bb d'c' c'b | e'c' ba a2 a2 |
+[V:RH] B,^DFA BAF^D | B,EGB eBGE | DGBd EGce | CEAc ^DFAB |
+[V:LH] [B,,F,A,]4 z4 | [E,,B,,E,]4 z4 | [B,,G,D]4 [C,G,E]4 | [A,,E,A,]4 [B,,F,A,]4 |
+[V:Solo] ^g2 b2 e'2 e'2 | e'4 a2 a2 | c'2 e'2 a'2 a'2 | a'4 b3 b |
+[V:RH] B,E^GB eB^GE | CEAc ecAE | C^FAc ^fcA^F | B,^DFA BAF^D |
+[V:LH] [E,,B,,E,]4 z4 | [A,,E,A,]4 z4 | [A,,^D,A,]4 z4 | [B,,F,A,]4 z4 |
+[V:Solo] b4 (3bfa (3gfe | (3g^de (3fe^d (3e_BB (3cB_B | (3BFG (3AGF GEGB | eegb e'3 e' |
+[V:RH] B,EGB eBGE | B,EGB eBGE | B,EGB eBGE | B,EGB B,E^GB |
+[V:LH] [E,,B,,E,]4 z4 | [E,,B,,E,]4 z4 | [E,,B,,E,]4 z4 | [E,,B,,E,]4 [E,,B,,E,]4 |
+[V:Solo] e'4 (3e'bc' (3d'c'b | (3c'^ga (3ba^g (3a^de (3=fe^d | (3eBc (3dcB cAce | aac'e' a'3 a' |
+[V:RH] CEAc ecAE | CEAc ecAE | CEAc ecAE | CEAc CEGA |
+[V:LH] [A,,E,A,]4 z4 | [A,,E,A,]4 z4 | [A,,E,A,]4 z4 | [A,,E,A,]4 [A,,E,A,]4 |
+[V:Solo] a'2 (3c'ba (3gef (3gfe | (3cAB (3cBA G2 (3gfe | (3cAB (3cBA (3GEF (3GFE | (3CA,B, (3CB,A, G,2 (3DCB, |
+[V:RH] DFAc dcAF | DGBd dGBd | EGce gceG | ^DFAB dBAF |
+[V:LH] [D,F,C]4 z4 | [G,,D,B,]4 z4 | [C,,G,,E,]4 z4 | [B,,F,A,]4 z4 |
+[V:Solo] (3CB,A, (3EDC (3DCB, (3=FED | (3EDC (3GFE (3FE^D (3AGF | (3GFE (3GFE (3gfe (3gfe | g'6 G2 |
+[V:RH] CEAc D=FAd | B,DGB CEGc | C^FAc ^DFAB | B,EGB eBGE |
+[V:LH] [A,,E,C]4 [D,F,C]4 | [G,,D,B,]4 [C,E,G,]4 | [A,,^D,A,]4 [B,,F,A,]4 | [E,,B,,E,]4 z4 |
+[V:Solo] _B2 ^c2 e2 g2 | _b2 ^c'2 e'2 g'2 | b'4 B,4 | _B,6 (3GG,G |
+[V:RH] ^CEG_B ^cGE^C | _B^ceg _bge^c | B,EGB B,^DFA | ^CEG_B ^cGE^C |
+[V:LH] [^C,G,_B]4 z4 | [^C,G,_B]4 z4 | [B,,G,B,]4 [B,,F,A,]4 | [^C,G,_B]4 z4 |
+[V:Solo] (3_B_B,_B (3^c^C^c (3eEe (3gGg | (3_b_B_b (3^c'c^c' (3e'ee' (3g'gg' | b'6 g'2 | e'4 z4 |]
+[V:RH] ^CEG_B ^cGE^C | _B^ceg _bge^c | B,^DFA B^dfa | [EGBe]4 z4 |]
+[V:LH] [^C,G,_B]4 z4 | [^C,G,_B]4 z4 | [B,,F,A,]4 [B,,F,A,]4 | [E,,B,,E,]4 z4 |]

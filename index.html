@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+		<meta name="theme-color" content="#e8380d" />
+		<meta name="description" content="クラシックの名曲に合わせて太鼓を叩くリズムゲーム。PC でもスマホでも遊べます。" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-title" content="太鼓ウェーブ" />
+		<title>太鼓ウェーブ TaikoWave</title>
+		<link rel="icon" href="./favicon.ico" sizes="48x48" />
+		<link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+		<link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
+		/>
+	</head>
+	<body>
+		<div id="app">
+			<header class="banner" aria-hidden="true">
+				<div class="maku"></div>
+				<div class="lanterns" id="lanterns"></div>
+			</header>
+
+			<!-- タイトル -->
+			<section class="screen" id="screen-title">
+				<div class="title-wrap">
+					<h1 class="logo">
+						<span class="logo-drum" aria-hidden="true"></span>
+						<span class="logo-text" data-t="appName"></span>
+						<span class="logo-sub">TaikoWave</span>
+					</h1>
+					<p class="tagline" data-t="tagline"></p>
+					<button class="btn btn-big" id="btn-start" data-t="start"></button>
+					<div class="card howto">
+						<h2 data-t="howTo"></h2>
+						<ul id="howto-list"></ul>
+						<p class="keys" data-html="keys"></p>
+						<p class="keys" data-t="touch"></p>
+					</div>
+					<p class="credits" data-html="credits"></p>
+					<p class="credits" id="analytics-note" hidden data-t="analyticsNote"></p>
+				</div>
+			</section>
+
+			<!-- 曲選択 -->
+			<section class="screen" id="screen-select" hidden>
+				<div class="select-wrap">
+					<div class="select-head">
+						<button class="btn btn-small btn-ghost" id="btn-select-back" data-t="back"></button>
+						<h2 data-t="chooseSong"></h2>
+					</div>
+					<div class="diff-tabs" id="diff-tabs" role="radiogroup"></div>
+					<ul class="song-list" id="song-list"></ul>
+					<details class="card settings">
+						<summary data-t="settings"></summary>
+						<label><span data-t="musicVolume"></span><input type="range" id="set-music" min="0" max="1" step="0.05" /></label>
+						<label><span data-t="seVolume"></span><input type="range" id="set-se" min="0" max="1" step="0.05" /></label>
+						<label
+							><span data-t="speed"></span><input type="range" id="set-speed" min="0.6" max="1.8" step="0.1" /><output
+								id="out-speed"
+							></output
+						></label>
+						<label
+							><span data-t="offset"></span><input type="range" id="set-offset" min="-150" max="150" step="5" /><output
+								id="out-offset"
+							></output
+						></label>
+						<p class="hint" data-t="offsetHint"></p>
+					</details>
+				</div>
+			</section>
+
+			<!-- プレイ -->
+			<section class="screen" id="screen-play" hidden>
+				<div class="hud">
+					<div class="hud-song" id="hud-song"></div>
+					<div class="hud-score"><span data-t="score"></span><b id="hud-score">0</b></div>
+					<div class="gauge" aria-hidden="true"><div class="gauge-fill" id="gauge-fill"></div><div class="gauge-mark"></div></div>
+					<button class="btn-pause" id="btn-pause" aria-label="pause">II</button>
+				</div>
+				<div class="stage-wrap"><canvas id="stage"></canvas></div>
+				<div class="overlay" id="ov-loading" hidden>
+					<div class="spinner" aria-hidden="true"></div>
+					<p data-t="loading"></p>
+				</div>
+				<div class="overlay" id="ov-error" hidden>
+					<p id="error-text"></p>
+					<button class="btn" id="btn-error-back" data-t="back"></button>
+				</div>
+				<div class="overlay" id="ov-pause" hidden>
+					<p class="ov-title" data-t="paused"></p>
+					<button class="btn" id="btn-resume" data-t="resume"></button>
+					<button class="btn btn-ghost" id="btn-retry" data-t="retry"></button>
+					<button class="btn btn-ghost" id="btn-quit" data-t="quit"></button>
+				</div>
+			</section>
+
+			<!-- 結果 -->
+			<section class="screen" id="screen-result" hidden>
+				<div class="result-wrap card">
+					<p class="result-song" id="res-song"></p>
+					<p class="result-clear" id="res-clear"></p>
+					<div class="result-main">
+						<div class="rank-stamp" id="res-rank"></div>
+						<div>
+							<p class="result-label" data-t="score"></p>
+							<p class="result-score" id="res-score"></p>
+							<p class="new-best" id="res-best" hidden data-t="newBest"></p>
+						</div>
+					</div>
+					<dl class="result-grid" id="res-grid"></dl>
+					<div class="result-actions">
+						<button class="btn" id="btn-res-retry" data-t="retry"></button>
+						<button class="btn btn-ghost" id="btn-res-select" data-t="quit"></button>
+					</div>
+				</div>
+			</section>
+		</div>
+		<script type="module" src="./src/main.ts"></script>
+	</body>
+</html>
