@@ -36,6 +36,12 @@ npm run icons     # public/favicon.svg から favicon.ico と apple-touch-icon.p
 
 `dist/` をそのまま GitHub Pages などに置けば動きます（相対パスで出力）。
 
+### GitHub Pages へのデプロイ
+
+`main` ブランチに push すると GitHub Actions（`.github/workflows/deploy.yml`）がテスト・ビルドして GitHub Pages にデプロイします。
+初回はリポジトリの Settings → Pages → Build and deployment の Source を「GitHub Actions」にしてください。
+Settings → Secrets and variables → Actions → Variables にリポジトリ変数 `GTM_ID`（`G-…` または `GTM-…`）を登録すると、その ID で計測タグが埋め込まれます（未登録なら埋め込みません）。
+
 ### ファイル
 
 | パス | 内容 |

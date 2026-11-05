@@ -36,6 +36,12 @@ npm run icons     # regenerate favicon.ico and apple-touch-icon.png from public/
 
 You can put `dist/` as-is on GitHub Pages or similar hosting (it is built with relative paths).
 
+### Deploying to GitHub Pages
+
+Pushing to the `main` branch runs GitHub Actions (`.github/workflows/deploy.yml`), which tests, builds and deploys the site to GitHub Pages.
+First, set Settings → Pages → Build and deployment → Source to "GitHub Actions".
+If you add a repository variable `GTM_ID` (`G-…` or `GTM-…`) under Settings → Secrets and variables → Actions → Variables, the tracking tag is embedded with that ID (nothing is embedded if it is not set).
+
 ### Files
 
 | Path | Contents |
