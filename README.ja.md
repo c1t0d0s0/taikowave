@@ -4,8 +4,6 @@
 
 クラシックの名曲に合わせて太鼓を叩くリズムゲームです。PC でもスマートフォンでも遊べます。
 
-- 曲は [ABC 譜面スタジオ](https://github.com/c1t0d0s0/music-abc)（`../music-abc`）の収録曲から、激しめの曲を選んで収録
-  （四季「夏」第3楽章、革命のエチュード、幻想即興曲、メンデルスゾーンのヴァイオリン協奏曲、入門用にラ・マルセイエーズ）
 - 曲は [abcjs](https://github.com/paulrosen/abcjs) で ABC 譜から MIDI 音源（FluidR3_GM サウンドフォント）で鳴らし、
   譜面（ドン・カンの音符）も同じ ABC 譜から自動で作ります
 - Vite + TypeScript（サーバー不要の静的サイト）
@@ -52,12 +50,6 @@ Settings → Secrets and variables → Actions → Variables にリポジトリ�
 | `src/lib/render.ts` | Canvas の描画 |
 | `src/lib/input.ts` | キーボード・クリック・タップ |
 | `src/songs/` | 曲の ABC 譜（music-abc からコピー）と曲情報 |
-
-### 曲を追加するには
-
-1. `../music-abc/src/songs/<カテゴリ>/<id>.abc` を `src/songs/` にコピーする
-2. `src/songs/meta.ts` の `SONGS` に同じ `id` で曲名などを追加する
-3. `npm test` で譜面が作れることを確かめる
 
 ## アクセス解析（任意）
 

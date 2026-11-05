@@ -4,8 +4,6 @@ English | [日本語](README.ja.md)
 
 A rhythm game where you drum along to classical masterpieces. Playable on both PC and smartphones.
 
-- The songs are taken from [ABC Score Studio](https://github.com/c1t0d0s0/music-abc) (`../music-abc`), choosing the more intense pieces
-  (Vivaldi's Summer, 3rd movement; Chopin's Revolutionary Étude and Fantaisie-Impromptu; Mendelssohn's Violin Concerto; plus La Marseillaise for beginners)
 - Each song is played from its ABC score by [abcjs](https://github.com/paulrosen/abcjs) with a MIDI sound font (FluidR3_GM),
   and the drum chart (Don / Kan notes) is generated automatically from the same ABC score
 - Vite + TypeScript (a static site; no server needed)
@@ -52,12 +50,6 @@ If you add a repository variable `GTM_ID` (`G-…` or `GTM-…`) under Settings 
 | `src/lib/render.ts` | Canvas rendering |
 | `src/lib/input.ts` | Keyboard, click, and tap input |
 | `src/songs/` | Song ABC scores (copied from music-abc) and song metadata |
-
-### Adding a song
-
-1. Copy `../music-abc/src/songs/<category>/<id>.abc` into `src/songs/`
-2. Add an entry with the same `id` (title, etc.) to `SONGS` in `src/songs/meta.ts`
-3. Run `npm test` to make sure a chart can be generated
 
 ## Analytics (optional)
 
