@@ -6,7 +6,7 @@ import { GameAudio } from "./lib/audio";
 import { GameState, type Judgement } from "./lib/game";
 import { Renderer } from "./lib/render";
 import { bindInput } from "./lib/input";
-import { ANALYTICS_ID, trackEvent, trackPageView } from "./lib/analytics";
+import { trackEvent, trackPageView } from "./lib/analytics";
 import { load, save } from "./lib/storage";
 
 const abcSources = import.meta.glob<string>("./songs/*.abc", { query: "?raw", import: "default", eager: true });
@@ -48,7 +48,6 @@ for (const el of document.querySelectorAll<HTMLElement>("[data-html]")) {
 	el.innerHTML = String(t[el.dataset.html as keyof typeof t]);
 }
 $("howto-list").innerHTML = t.howToItems.map((s) => `<li>${s}</li>`).join("");
-if (ANALYTICS_ID) $("analytics-note").hidden = false;
 
 // 提灯
 const lanternWords = ["祭", "", "ドン", "", "カン", "", "祭", "", "ドン", "", "カン", "", "祭", ""];

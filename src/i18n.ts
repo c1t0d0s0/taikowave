@@ -69,8 +69,7 @@ const ja = {
 	late: (ms: number) => `${ms}ms 遅め`,
 	justRight: "ぴったり",
 	credits:
-		"曲の楽譜は <a href=\"https://github.com/c1t0d0s0/music-abc\" rel=\"noopener\">ABC 譜面スタジオ</a> の収録曲（CC0）。音源は FluidR3_GM サウンドフォント（CC BY 3.0）を abcjs で再生しています。",
-	analyticsNote: "このサイトは利用状況の把握のため Google アナリティクスを使っています。",
+		"音源は FluidR3_GM サウンドフォント（CC BY 3.0）を abcjs で再生しています。",
 };
 
 type Messages = typeof ja;
@@ -124,8 +123,7 @@ const en: Messages = {
 	late: (ms: number) => `${ms} ms late`,
 	justRight: "Spot on",
 	credits:
-		"Scores from <a href=\"https://github.com/c1t0d0s0/music-abc\" rel=\"noopener\">ABC Score Studio</a> (CC0). Played with abcjs using the FluidR3_GM sound font (CC BY 3.0).",
-	analyticsNote: "This site uses Google Analytics to understand how it is used.",
+		"Played with abcjs using the FluidR3_GM sound font (CC BY 3.0).",
 };
 
 export const t: Messages = lang === "ja" ? ja : en;
