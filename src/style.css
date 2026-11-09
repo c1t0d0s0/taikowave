@@ -676,7 +676,8 @@ body[data-screen="play"] .lanterns {
 	position: relative;
 }
 
-#stage {
+#stage,
+#stage-rival {
 	position: absolute;
 	inset: 0;
 	width: 100%;
@@ -684,6 +685,10 @@ body[data-screen="play"] .lanterns {
 	display: block;
 	touch-action: none;
 	cursor: pointer;
+}
+
+#stage-rival {
+	cursor: default;
 }
 
 .overlay {
@@ -1416,101 +1421,73 @@ body.celebrate::after {
 	box-shadow: none;
 }
 
-/* ---- 演奏中の相手・チームの表示 ---- */
-body[data-net] .hud {
-	grid-template-areas:
-		"song score pause"
-		"gauge gauge gauge"
-		"rival rival rival";
+/* ---- 演奏中: 2人プレイでは左に自分、右に相手 ---- */
+.stage-side {
+	position: absolute;
+	inset: 0;
 }
 
-.hud-rival {
-	grid-area: rival;
+.stage-rival {
 	display: none;
-	align-items: center;
-	gap: 10px;
-	min-height: 28px;
-	padding: 2px 12px;
+	pointer-events: none;
+}
+
+body[data-net] .stage-me {
+	right: 50%;
+}
+
+body[data-net] .stage-rival {
+	display: block;
+	left: 50%;
+	border-left: 3px solid var(--sumi);
+}
+
+.stage-rival.gone canvas {
+	opacity: 0.4;
+	filter: grayscale(0.7);
+}
+
+.stage-label {
+	display: none;
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	max-width: calc(100% - 16px);
+	padding: 0.15em 0.8em;
 	border: 2px solid var(--sumi);
 	border-radius: 999px;
-	background: #fff;
+	background: rgba(255, 246, 224, 0.92);
+	font-weight: 900;
 	font-size: 0.85rem;
-	font-weight: 700;
 	white-space: nowrap;
 	overflow: hidden;
+	text-overflow: ellipsis;
+	pointer-events: none;
 }
 
-body[data-net] .hud-rival {
-	display: flex;
+body[data-net] .stage-label {
+	display: block;
 }
 
-body[data-net="versus"] .hud-rival {
+.stage-me .stage-label {
+	border-left: 8px solid var(--shu);
+}
+
+.stage-rival .stage-label {
 	border-left: 8px solid var(--ai-light);
 }
 
-body[data-net="coop"] .hud-rival {
-	border-left: 8px solid var(--matsu);
-}
-
-.rv-name {
-	font-weight: 900;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	max-width: 10em;
-}
-
-.rv-score {
+.stage-label b {
 	font-family: var(--display);
 	font-weight: 400;
-	font-size: 1.05rem;
+	margin-left: 0.4em;
 	color: var(--ai);
 	font-variant-numeric: tabular-nums;
 }
 
-.rv-combo b {
-	font-family: var(--display);
-	font-weight: 400;
-	font-size: 1.05rem;
-	color: var(--shu);
-}
-
-.rv-last {
-	font-weight: 900;
-}
-
-.rv-last.grade-great {
-	color: #c98a00;
-}
-.rv-last.grade-good {
-	color: var(--shu);
-}
-.rv-last.grade-ok {
-	color: var(--ai);
-}
-.rv-last.grade-miss {
-	color: #8a7a70;
-}
-
-.rv-gauge {
-	flex: 1;
-	min-width: 40px;
-	height: 10px;
-	border: 2px solid var(--sumi);
-	border-radius: 999px;
-	overflow: hidden;
-	background: #fff;
-}
-
-.rv-gauge i {
-	display: block;
-	height: 100%;
-	background: var(--ai-light);
-	transition: width 0.25s;
-}
-
 .play-turn {
 	position: absolute;
-	top: 10px;
+	top: 44px;
 	left: 50%;
 	transform: translateX(-50%);
 	padding: 0.25em 1em;
@@ -1693,8 +1670,13 @@ body[data-net] .btn-pause {
 	.mr-score {
 		font-size: 1.35rem;
 	}
-	.hud-rival {
-		font-size: 0.78rem;
-		gap: 8px;
+	.stage-label {
+		font-size: 0.72rem;
+		top: 6px;
+		left: 6px;
+	}
+	.play-turn {
+		font-size: 0.82rem;
+		top: 36px;
 	}
 }

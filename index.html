@@ -160,9 +160,20 @@
 					<div class="hud-score"><span data-t="score"></span><b id="hud-score">0</b></div>
 					<div class="gauge" aria-hidden="true"><div class="gauge-fill" id="gauge-fill"></div><div class="gauge-mark"></div></div>
 					<button class="btn-pause" id="btn-pause" aria-label="pause">II</button>
-					<div class="hud-rival" id="hud-rival" aria-live="off"></div>
 				</div>
-				<div class="stage-wrap"><canvas id="stage"></canvas><div class="play-turn" id="play-turn" hidden></div></div>
+				<div class="stage-wrap">
+					<!-- 自分（2人プレイでは左半分） -->
+					<div class="stage-side stage-me">
+						<canvas id="stage"></canvas>
+						<div class="stage-label" id="stage-label-me"></div>
+						<div class="play-turn" id="play-turn" hidden></div>
+					</div>
+					<!-- 相手（2人プレイのときだけ、右半分） -->
+					<div class="stage-side stage-rival" id="stage-rival-wrap" aria-hidden="true">
+						<canvas id="stage-rival"></canvas>
+						<div class="stage-label" id="stage-label-rival"></div>
+					</div>
+				</div>
 				<div class="overlay" id="ov-loading" hidden>
 					<div class="spinner" aria-hidden="true"></div>
 					<p data-t="loading"></p>

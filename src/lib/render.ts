@@ -222,7 +222,9 @@ export class Renderer {
 	}
 
 	/**
-	 * mine は協力プレイで、音符ごとに自分が叩くかどうか。相方の音符は小さく薄く描く（1人なら null）
+	 * mine は協力プレイで、音符ごとに自分が叩くかどうか。相方の音符は小さく薄く描く（1人なら null）。
+	 * cutoff を指定すると、まだ判定のない音符を、判定の輪をその秒数だけ過ぎたら描かない
+	 * （2人プレイの相手側。相手の判定が届くまでのあいだ、音符が輪の下へ流れ続けないように）
 	 */
 	draw(
 		notes: readonly ChartNote[],
@@ -231,6 +233,7 @@ export class Renderer {
 		combo: number,
 		kindHint: boolean,
 		mine: readonly boolean[] | null = null,
+		cutoff: number | null = null,
 	) {
 		const g = this.g;
 		const L = this.layout;
@@ -241,7 +244,7 @@ export class Renderer {
 		this.drawFireworks(now);
 		this.drawLanterns(now, songTime);
 		this.drawLane(now);
-		this.drawNotes(notes, judged, songTime, kindHint, mine);
+		this.drawNotes(notes, judged, songTime, kindHint, mine, cutoff);
 		this.drawBursts(now);
 		this.drawPopups(now);
 		this.drawDrum(now, combo);
@@ -472,6 +475,7 @@ export class Renderer {
 		songTime: number,
 		hint: boolean,
 		mine: readonly boolean[] | null,
+		cutoff: number | null,
 	) {
 		const { lane, noteR } = this.layout;
 		const cx = lane.x + lane.w / 2;
@@ -490,6 +494,7 @@ export class Renderer {
 			if (y < lane.y - noteR * 2) continue;
 			const res = judged[i];
 			if (res && res !== "miss") continue;
+			if (cutoff !== null && !res && n.time < songTime - cutoff) continue;
 			if (mine && !mine[i]) this.drawNote(cx, y, n.kind, n.big, false, res === "miss" ? 0.15 : 0.32, 0.72);
 			else this.drawNote(cx, y, n.kind, n.big, hint, res === "miss" ? 0.35 : 1);
 		}
@@ -527,11 +532,16 @@ export class Renderer {
 		g.font = `900 ${size}px "Zen Maru Gothic", sans-serif`;
 		g.textAlign = "center";
 		g.textBaseline = "top";
-		// 判定の輪の右隣（レーンの外）に出す
-		const x = lane.x + lane.w + 12;
-		const y = lane.judgeY - k * 6;
+		// 判定の輪の右隣（レーンの外）に出す。横に入りきらないとき（2人プレイのスマホなど）は輪の上に出す
+		let x = lane.x + lane.w + 12;
+		let y = lane.judgeY - k * 6;
 		g.textAlign = "left";
 		g.textBaseline = "middle";
+		if (x + g.measureText(p.label).width > this.layout.w - 4) {
+			x = lane.x + lane.w / 2;
+			y = lane.judgeY - noteR * 1.9 - k * 6;
+			g.textAlign = "center";
+		}
 		g.lineWidth = 5;
 		g.strokeStyle = COLORS.ink;
 		g.strokeText(p.label, x, y);

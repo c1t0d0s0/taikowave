@@ -13,6 +13,7 @@ import type { Counts, Grade } from "../lib/game";
 import type { Backend, Unsubscribe } from "./backend";
 import {
 	isRoomCode,
+	splitMarks,
 	otherSeat,
 	randomRoomCode,
 	readyKey,
@@ -54,7 +55,6 @@ function newSeat(uid: string, p: Player): SeatData {
 		gauge: 0,
 		counts: { great: 0, good: 0, ok: 0, miss: 0 },
 		last: "",
-		marks: "",
 		stamp: "",
 		stampAt: 0,
 	};
@@ -83,6 +83,8 @@ export class Room {
 	private left = false;
 	/** ホストが同じ書き込みを何度もしないように、最後に進めた段階を覚えておく */
 	private driven = "";
+	/** 最後に送った判定の文字列の区切り（変わった区切りだけを送る） */
+	private sentMarks = new Map<string, string>();
 
 	private constructor(backend: Backend, code: string, seat: Seat) {
 		this.backend = backend;
@@ -246,18 +248,31 @@ export class Room {
 
 	/** 演奏を始める前に、成績を空にする */
 	resetProgress() {
-		return this.writeMe({ score: 0, combo: 0, maxCombo: 0, gauge: 0, counts: { great: 0, good: 0, ok: 0, miss: 0 }, last: "", marks: "" });
+		this.sentMarks.clear();
+		return this.writeMe({ score: 0, combo: 0, maxCombo: 0, gauge: 0, counts: { great: 0, good: 0, ok: 0, miss: 0 }, last: "", mk: null } as unknown as Partial<SeatData>);
+	}
+
+	/** 成績を書く値にする。判定の文字列は、前に送ったときから変わった区切りだけにする */
+	private progressValues(p: Progress): Record<string, unknown> {
+		const { marks, ...rest } = p;
+		const values: Record<string, unknown> = { ...rest };
+		for (const [k, v] of Object.entries(splitMarks(marks))) {
+			if (this.sentMarks.get(k) === v) continue;
+			this.sentMarks.set(k, v);
+			values[`mk/${k}`] = v;
+		}
+		return values;
 	}
 
 	/** 演奏中の成績を送る */
 	publish(p: Progress) {
-		return this.writeMe({ ...p });
+		return this.writeMe(this.progressValues(p) as Partial<SeatData>);
 	}
 
 	/** 叩き終えた。最後の成績を送る */
 	finish(p: Progress) {
 		const d = this.data;
-		return this.writeMe({ ...p, finished: d?.round ?? 0 });
+		return this.writeMe({ ...this.progressValues(p), finished: d?.round ?? 0 } as Partial<SeatData>);
 	}
 
 	// ---- 結果 ----

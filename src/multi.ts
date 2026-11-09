@@ -7,6 +7,7 @@ import { t, tr } from "./i18n";
 import type { ScreenName } from "./main";
 import { assignCoop, DIFFICULTIES, type Chart, type ChartNote, type CoopOwner, type Difficulty, type SourceSong } from "./lib/chart";
 import type { GameAudio } from "./lib/audio";
+import type { Renderer } from "./lib/render";
 import { rankFor, type Counts, type Grade, type GameState, type Rank } from "./lib/game";
 import { trackEvent } from "./lib/analytics";
 import { load, save } from "./lib/storage";
@@ -18,6 +19,7 @@ import {
 	encodeMarks,
 	inviteUrl,
 	isRoomCode,
+	joinMarks,
 	mergeCoopMarks,
 	normalizeRoomCode,
 	notesOf,
@@ -49,8 +51,12 @@ export interface NetPlay {
 	combo(state: GameState): number;
 	/** 画面上部のスコア・ゲージ・相手の表示 */
 	hud(state: GameState): void;
-	/** 毎フレーム呼ぶ（成績を送る、交代の表示） */
+	/** 毎フレーム呼ぶ（成績を送る、名札・交代の表示） */
 	tick(state: GameState, now: number): void;
+	/** 右側に描く相手の譜面の難易度（音符の流れる速さに使う） */
+	rivalDifficulty: Difficulty;
+	/** 毎フレーム、右側に相手のプレイを描く */
+	drawRival(rv: Renderer, state: GameState, now: number): void;
 	/** 叩き終えた */
 	finish(state: GameState): void;
 }
@@ -69,8 +75,10 @@ export interface MultiDeps {
 	saveSettings(): void;
 }
 
-/** 成績を送る間隔（ミリ秒） */
-const PUBLISH_MS = 250;
+/** 成績を送る間隔（ミリ秒）。相手の画面で、こちらの判定の演出が遅れすぎないように短めにする */
+const PUBLISH_MS = 150;
+/** 相手側のレーンで、まだ判定が届いていない音符を、判定の輪を何秒過ぎるまで描くか */
+const RIVAL_CUTOFF = 0.15;
 /** スタンプを出しておく時間（ミリ秒） */
 const STAMP_MS = 2600;
 
@@ -493,7 +501,10 @@ export function initMulti(deps: MultiDeps) {
 		celebrated = 0;
 		view = "play";
 		const startAt = d.startAt;
-		const net = d.mode === "coop" ? coopPlay(r, chart, owners!) : versusPlay(r);
+		const net = d.mode === "coop" ? coopPlay(r, chart, owners!, difficulty) : versusPlay(r, song, r.partner()?.difficulty ?? difficulty);
+		$("stage-label-me").textContent = t.you;
+		$("stage-label-rival").textContent = "";
+		$("stage-rival-wrap").classList.remove("gone");
 		const base = {
 			startAt: (ctx: BaseAudioContext) => serverToContextTime(startAt, r.serverOffset(), Date.now(), ctx.currentTime),
 			finish: (st: GameState) => void finished(st),
@@ -529,18 +540,64 @@ export function initMulti(deps: MultiDeps) {
 		return roomGone || !r.partner();
 	}
 
-	function rivalHtml(name: string, parts: string[], gauge: number | null) {
-		const g = gauge === null ? "" : `<span class="rv-gauge"><i style="width:${Math.max(0, Math.min(100, gauge))}%"></i></span>`;
-		return `<span class="rv-name">${esc(name)}</span>${parts.join("")}${g}`;
+	/** 右側の名札。相手がいなくなったら右側を薄くする */
+	function rivalLabeler(r: Room) {
+		let last = "";
+		return (html: (p: SeatData) => string) => {
+			const p = roomGone ? undefined : r.partner();
+			const next = p ? html(p) : esc(t.partnerLeft);
+			if (next === last) return;
+			last = next;
+			$("stage-label-rival").innerHTML = next;
+			$("stage-rival-wrap").classList.toggle("gone", !p);
+		};
 	}
 
-	function versusPlay(r: Room): Omit<NetPlay, "startAt" | "finish"> {
+	/**
+	 * 相手側のレーン。届いた判定の文字列が増えたら、新しく判定された音符について、
+	 * 相手側の太鼓を光らせ、判定の文字・音符が弾ける演出・コンボを出す。
+	 * idx は、判定の文字列の k 文字目が notes の何番目の音符か。
+	 */
+	function rivalLane(notes: readonly ChartNote[], idx: readonly number[]) {
+		let marks = "";
+		const grades: (Grade | null)[] = idx.map(() => null);
+		let combo = 0;
+		return {
+			grades,
+			combo: () => combo,
+			update(rv: Renderer, next: string) {
+				if (next === marks) return;
+				marks = next;
+				decodeMarks(next, idx.length).forEach((g, k) => {
+					if (!g || grades[k]) return;
+					grades[k] = g;
+					const note = notes[idx[k]!];
+					if (g === "miss") combo = 0;
+					else {
+						combo++;
+						if (note) rv.onHit(note.kind);
+					}
+					rv.onJudge(g, t.grades[g], note);
+					if (g !== "miss") rv.onCombo(combo);
+				});
+			},
+		};
+	}
+
+	function versusPlay(r: Room, song: SongMeta, rivalDifficulty: Difficulty): Omit<NetPlay, "startAt" | "finish"> {
 		const publish = publisher(r);
-		let lastHud = "";
+		const label = rivalLabeler(r);
+		// 相手は自分で選んだ難易度の譜面を叩いているので、その譜面を手元で作って描く
+		const rivalNotes = deps.chartFor(song.id, rivalDifficulty).notes;
+		const lane = rivalLane(
+			rivalNotes,
+			rivalNotes.map((_, i) => i),
+		);
 		return {
 			mode: "versus",
 			notes: null,
 			mine: null,
+			rivalDifficulty,
 			judged: (st) => st.results,
 			combo: (st) => st.combo,
 			hud(st) {
@@ -550,27 +607,20 @@ export function initMulti(deps: MultiDeps) {
 				fill.classList.toggle("full", st.cleared);
 			},
 			tick(st) {
-				publish(() => progressOf(st, ""));
-				const p = r.partner();
-				const html =
-					!p || roomGone
-						? rivalHtml(t.partnerLeft, [], null)
-						: rivalHtml(
-								p.name,
-								[
-									`<b class="rv-score">${p.score.toLocaleString()}</b>`,
-									`<span class="rv-combo">${p.combo} ${t.combo}</span>`,
-									p.last ? `<span class="rv-last grade-${p.last}">${t.grades[p.last]}</span>` : "",
-								],
-								p.gauge,
-							);
-				if (html !== lastHud) $("hud-rival").innerHTML = lastHud = html;
+				publish(() => progressOf(st, encodeMarks(st.results)));
+				label((p) => `${esc(p.name)}<b>${p.score.toLocaleString()}</b>`);
+			},
+			drawRival(rv, _st, now) {
+				const p = roomGone ? undefined : r.partner();
+				if (p) lane.update(rv, joinMarks(p.mk));
+				rv.draw(rivalNotes, lane.grades, now, lane.combo(), true, null, RIVAL_CUTOFF);
 			},
 		};
 	}
 
-	function coopPlay(r: Room, chart: Chart, owners: CoopOwner[]): Omit<NetPlay, "startAt" | "finish"> {
+	function coopPlay(r: Room, chart: Chart, owners: CoopOwner[], difficulty: Difficulty): Omit<NetPlay, "startAt" | "finish"> {
 		const publish = publisher(r);
+		const label = rivalLabeler(r);
 		const mySeat = r.seat;
 		const partnerSeat = r.partnerSeat;
 		const myIdx = notesOf(owners, mySeat);
@@ -580,14 +630,17 @@ export function initMulti(deps: MultiDeps) {
 		let partnerMarks = "";
 		let partnerGrades: (Grade | null)[] = [];
 		let team: TeamStats = teamStats(full);
-		let lastHud = "";
+		// 右側（相方）のレーン: 相方の音符を普通に、自分の音符を薄く描く
+		const lane = rivalLane(chart.notes, partnerIdx);
+		const partnerMask = owners.map((o) => o === partnerSeat || o === "both");
+		const rivalJudged: (Grade | null)[] = owners.map(() => null);
 		let lastTurn = "";
 		let cursor = 0;
 
 		/** 相方の判定。相方がいなくなったら、叩く時間を過ぎた相方の音符を「ざんねん」にする */
 		function partnerResults(now: number): (Grade | null)[] {
 			const p = r.partner();
-			const marks = p?.marks ?? partnerMarks;
+			const marks = p ? joinMarks(p.mk) : partnerMarks;
 			if (marks !== partnerMarks || partnerGrades.length !== partnerIdx.length) {
 				partnerMarks = marks;
 				partnerGrades = decodeMarks(marks, partnerIdx.length);
@@ -600,6 +653,7 @@ export function initMulti(deps: MultiDeps) {
 			mode: "coop",
 			notes: myIdx.map((i) => chart.notes[i]!),
 			mine,
+			rivalDifficulty: difficulty,
 			judged(st, now) {
 				full.fill(null);
 				const pg = partnerResults(now);
@@ -627,12 +681,7 @@ export function initMulti(deps: MultiDeps) {
 				);
 				play.hud(st);
 				const p = r.partner();
-				const html = rivalHtml(
-					!p || roomGone ? t.partnerLeft : `${t.partner}: ${p.name}`,
-					[`<span class="rv-combo">${t.teamCombo} <b>${team.combo}</b></span>`],
-					null,
-				);
-				if (html !== lastHud) $("hud-rival").innerHTML = lastHud = html;
+				label((q) => `${esc(t.partner)}: ${esc(q.name)}`);
 				// 次に叩く人
 				while (cursor < chart.notes.length && chart.notes[cursor]!.time < now - 0.1) cursor++;
 				const o = owners[cursor];
@@ -644,6 +693,17 @@ export function initMulti(deps: MultiDeps) {
 					el.className = `play-turn turn-${turn}`;
 					el.textContent = turn === "mine" ? t.yourTurn : turn === "both" ? t.together : t.partnerTurn(p?.name ?? t.partner);
 				}
+			},
+			drawRival(rv, st, now) {
+				const p = roomGone ? undefined : r.partner();
+				if (p) lane.update(rv, joinMarks(p.mk));
+				rivalJudged.fill(null);
+				partnerIdx.forEach((n, k) => (rivalJudged[n] = lane.grades[k] ?? null));
+				// 自分だけが叩く音符は、自分の判定で消す（右側では薄く描いている）
+				myIdx.forEach((n, k) => {
+					if (owners[n] === mySeat) rivalJudged[n] = st.results[k] ?? null;
+				});
+				rv.draw(chart.notes, rivalJudged, now, team.combo, true, partnerMask, RIVAL_CUTOFF);
 			},
 		};
 		return play;
@@ -709,7 +769,7 @@ export function initMulti(deps: MultiDeps) {
 			const missing: Seat[] = partnerDone ? ["p1", "p2"] : [mySeat];
 			const merged = mergeCoopMarks(
 				c.owners,
-				{ [mySeat]: me.marks, [r.partnerSeat]: partner?.marks ?? "" } as Record<Seat, string>,
+				{ [mySeat]: me.marks, [r.partnerSeat]: joinMarks(partner?.mk) } as Record<Seat, string>,
 				missing,
 			);
 			const team = teamStats(merged);

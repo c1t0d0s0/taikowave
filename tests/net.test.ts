@@ -8,12 +8,14 @@ import {
 	encodeMarks,
 	inviteUrl,
 	isRoomCode,
+	joinMarks,
 	mergeCoopMarks,
 	normalizeRoomCode,
 	notesOf,
 	randomRoomCode,
 	readyKey,
 	sanitizeName,
+	splitMarks,
 	serverToContextTime,
 	teamStats,
 	versusWinner,
@@ -76,6 +78,18 @@ describe("協力: 判定の文字列", () => {
 		const s = encodeMarks(r);
 		expect(s).toBe("Gg.mo");
 		expect(decodeMarks(s, r.length)).toEqual([...r]);
+	});
+
+	it("100文字ずつに区切って、元に戻せる", () => {
+		const marks = "G".repeat(1050) + "m";
+		const mk = splitMarks(marks);
+		expect(Object.keys(mk)).toEqual(["c0", "c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10"]);
+		expect(mk.c10).toBe("G".repeat(50) + "m");
+		// 順番がばらばらでも、番号の順に戻す（c10 は c9 のあと）
+		const shuffled = Object.fromEntries(Object.entries(mk).reverse());
+		expect(joinMarks(shuffled)).toBe(marks);
+		expect(joinMarks(null)).toBe("");
+		expect(splitMarks("")).toEqual({});
 	});
 
 	it("2人の判定を譜面全体に戻す。2人とも叩く音符は良いほう", () => {
@@ -265,6 +279,33 @@ describe("部屋", () => {
 		await until(() => seen.at(-1) === null);
 		expect(store.read(`rooms/${host.code}`)).toBeNull();
 		void guest;
+	});
+
+	it("判定の文字列は、変わった区切りだけを送る", async () => {
+		const store = new MemoryStore();
+		const writes: Record<string, unknown>[] = [];
+		class Spy extends MemoryBackend {
+			override async update(path: string, values: Record<string, unknown>) {
+				if (path.endsWith("/seats/p1")) writes.push(values);
+				return super.update(path, values);
+			}
+		}
+		const host = await Room.create(new Spy(store), "coop", { name: "あ", difficulty: "normal" });
+		const progress = (marks: string) => ({ score: 0, combo: 0, maxCombo: 0, gauge: 0, counts: { great: 0, good: 0, ok: 0, miss: 0 }, last: "" as const, marks });
+		await host.publish(progress("G".repeat(150)));
+		expect(Object.keys(writes.at(-1)!).filter((k) => k.startsWith("mk/"))).toEqual(["mk/c0", "mk/c1"]);
+		await host.publish(progress("G".repeat(151)));
+		expect(Object.keys(writes.at(-1)!).filter((k) => k.startsWith("mk/"))).toEqual(["mk/c1"]);
+		await host.publish(progress("G".repeat(151)));
+		expect(Object.keys(writes.at(-1)!).filter((k) => k.startsWith("mk/"))).toEqual([]);
+		await flush();
+		expect(joinMarks(host.me()?.mk)).toBe("G".repeat(151));
+		// 演奏を始める前に空にすると、最初から送り直す
+		await host.resetProgress();
+		await flush();
+		expect(host.me()?.mk).toBeUndefined();
+		await host.publish(progress("g"));
+		expect(Object.keys(writes.at(-1)!).filter((k) => k.startsWith("mk/"))).toEqual(["mk/c0"]);
 	});
 
 	it("相手が演奏中に抜けても、ホストが終われば結果になる", async () => {

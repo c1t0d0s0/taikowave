@@ -38,6 +38,8 @@ How to play:
 4. On the result screen, if both players press "Play again", you play the same song again. The host can go back to the lobby with "Choose another song".
    You can send stamps (👍🔥😂👏🎉) on the result screen and in the lobby
 
+While playing, your own play is shown on the left of the screen and your friend's play (falling notes, judgements, drum, combo) on the right.
+In Versus, the right side shows the chart at the difficulty your friend picked; in Co-op, it shows your partner's notes in full color (and yours faded).
 You can't pause while playing with a friend (switching to another tab doesn't stop the song either). If your friend leaves, you can still play to the end. In Co-op, a departed partner's remaining notes count as "Miss".
 When the host leaves, the room is closed.
 

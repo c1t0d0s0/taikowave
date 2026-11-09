@@ -196,6 +196,8 @@ $("set-se").addEventListener("change", () => getAudio()?.don());
 
 const canvas = $<HTMLCanvasElement>("stage");
 const renderer = new Renderer(canvas);
+/** 2人プレイで、画面の右側に相手のプレイを描く */
+const rivalRenderer = new Renderer($<HTMLCanvasElement>("stage-rival"));
 
 interface Session {
 	song: SongMeta;
@@ -234,6 +236,7 @@ async function startGame(song: SongMeta, difficulty: Difficulty, net: NetPlay | 
 	if (net) document.body.dataset.net = net.mode;
 	for (const id of ["ov-pause", "ov-error", "ov-mquit"]) $(id).hidden = true;
 	renderer.resize();
+	if (net) rivalRenderer.resize();
 	if (!a) return showError(t.noAudio);
 	a.unlock();
 
@@ -258,6 +261,10 @@ async function startGame(song: SongMeta, difficulty: Difficulty, net: NetPlay | 
 
 	renderer.scrollTime = SCROLL_TIME[difficulty] / settings.speed;
 	renderer.beatSeconds = chart.beatSeconds;
+	if (net) {
+		rivalRenderer.scrollTime = SCROLL_TIME[net.rivalDifficulty] / settings.speed;
+		rivalRenderer.beatSeconds = chart.beatSeconds;
+	}
 	const lead = Math.max(2.4, renderer.scrollTime + 1);
 	// 2人プレイでは、2人で決めた開始時刻に始める（間に合わなかったら、途中から鳴らす）
 	const startAt = net ? net.startAt(a.ctx) : a.ctx.currentTime + lead;
@@ -325,6 +332,7 @@ function loop() {
 	const judged: readonly (Grade | null)[] = s.net ? s.net.judged(s.state, now) : s.state.results;
 	renderer.draw(s.chart.notes, judged, now, s.net?.combo(s.state) ?? s.state.combo, true, s.net?.mine ?? null);
 	s.net?.tick(s.state, now);
+	s.net?.drawRival(rivalRenderer, s.state, now);
 	if (now >= s.endTime) {
 		finish();
 		return;
@@ -395,7 +403,10 @@ $("btn-error-back").addEventListener("click", () => {
 document.addEventListener("visibilitychange", () => {
 	if (document.hidden && session && !session.net && !session.paused && !session.done) togglePause();
 });
-window.addEventListener("resize", () => renderer.resize());
+window.addEventListener("resize", () => {
+	renderer.resize();
+	if (session?.net) rivalRenderer.resize();
+});
 
 // ---- 結果 ----
 

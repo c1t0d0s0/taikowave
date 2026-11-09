@@ -31,8 +31,11 @@ export interface SeatData {
 	counts: Counts;
 	/** 最新の判定（まだなければ ""） */
 	last: Grade | "";
-	/** 協力プレイの判定の文字列（encodeMarks） */
-	marks: string;
+	/**
+	 * 判定の文字列（encodeMarks）を MARKS_CHUNK 文字ずつに区切ったもの（c0, c1, …）。
+	 * 演奏中は変わった区切りだけを送るので、長い曲でも1回に送る量が小さい。joinMarks で元に戻す
+	 */
+	mk?: Record<string, string>;
 	/** スタンプと、押した時刻（同じスタンプを続けて押しても届くように） */
 	stamp: string;
 	stampAt: number;
@@ -136,7 +139,25 @@ const GRADE_CHAR: Record<Grade, string> = { great: "G", good: "g", ok: "o", miss
 const CHAR_GRADE: Record<string, Grade> = { G: "great", g: "good", o: "ok", m: "miss" };
 /** 判定の文字列に使える文字（まだ判定していない音符は "."） */
 export const MARKS_RE = /^[Ggom.]*$/;
-export const MARKS_MAX = 2000;
+/** 判定の文字列を区切る長さ */
+export const MARKS_CHUNK = 100;
+
+/** 判定の文字列を区切る（{ c0: "GGg…", c1: "…" }） */
+export function splitMarks(marks: string): Record<string, string> {
+	const out: Record<string, string> = {};
+	for (let i = 0, k = 0; i < marks.length; i += MARKS_CHUNK, k++) out[`c${k}`] = marks.slice(i, i + MARKS_CHUNK);
+	return out;
+}
+
+/** 区切った判定の文字列を元に戻す */
+export function joinMarks(mk: Record<string, string> | null | undefined): string {
+	if (!mk) return "";
+	return Object.keys(mk)
+		.filter((k) => /^c[0-9]+$/.test(k))
+		.sort((a, b) => Number(a.slice(1)) - Number(b.slice(1)))
+		.map((k) => mk[k] ?? "")
+		.join("");
+}
 
 /** 判定の並びを1文字ずつの文字列にする。最後のまだ判定していない分は省く */
 export function encodeMarks(results: readonly (Grade | null)[]): string {
