@@ -1,0 +1,46 @@
+X:1
+T:花火スターマイン
+T:Starmine
+C:作曲 太鼓ウェーブ オリジナル
+S:太鼓ウェーブのための書き下ろし（2026年）
+Z:TaikoWave (CC0)
+M:4/4
+L:1/16
+Q:1/4=124
+%%score [Melody Bass]
+V:Melody name="金管" snm="金管"
+V:Bass name="低音" snm="低" clef=bass
+K:Am
+% 3連符で打ち上がる花火と、16分音符のかけ上がり。いちばん細かい音符は3連8分（「むずかしい」向け）と16分の装飾（「げきむず」で全部出る）
+% %%MIDI program: 61 金管アンサンブル / 33 ベース（General MIDI）
+% %%MIDI beat: 小節の1拍目・表拍・裏拍の強さ（0〜127）
+V:Melody
+%%MIDI program 61
+%%MIDI beat 115 100 90 1
+V:Bass
+%%MIDI program 33
+%%MIDI beat 85 70 60 1
+% ---- A（打ち上げ） ----
+[V:Melody] (3E2A2c2 e4 (3d2c2B2 c4 | (3B2c2d2 e4 a4 z4 | (3F2A2c2 f4 (3e2d2c2 d4 | (3B2d2g2 b4 ^g4 z4 |
+[V:Bass] A,,4 E,4 A,,4 E,4 | A,,4 E,4 A,,4 E,4 | F,,4 C,4 F,,4 C,4 | G,,4 D,4 E,,4 B,,4 |
+% ---- B（8分の流れ） ----
+[V:Melody] A2c2 e2a2 g2e2 c2e2 | f2a2 g2f2 e4 z4 | d2f2 a2d'2 c'2a2 g2e2 | ^g2b2 e'4 z4 e4 |
+[V:Bass] A,,4 E,4 A,,4 E,4 | F,,4 C,4 C,4 G,,4 | D,4 A,,4 C,4 G,,4 | E,,4 B,,4 E,,4 B,,4 |
+% ---- C（16分の装飾） ----
+[V:Melody] a4 z2 eg a2e2 c2A2 | f4 z2 ce f2c2 A2F2 | g4 z2 dg b2g2 d2B2 | e4 z2 B^d e4 z4 |
+[V:Bass] A,,4 E,4 A,,4 E,4 | F,,4 C,4 F,,4 C,4 | G,,4 D,4 G,,4 D,4 | E,,4 B,,4 E,,4 B,,4 |
+% ---- D（かけ上がって大玉） ----
+[V:Melody] (3A2c2e2 (3a2e2c2 (3B2d2f2 (3b2f2d2 | (3c2e2a2 (3c'2a2e2 a4 z4 | (3d2f2a2 (3d'2a2f2 (3B2e2^g2 (3b2^g2e2 | !accent!a6 z2 !accent!a6 z2 |
+[V:Bass] A,,4 E,4 G,,4 D,4 | A,,4 E,4 A,,4 E,4 | D,4 A,,4 E,,4 B,,4 | A,,6 z2 A,,6 z2 |
+% ---- A ----
+[V:Melody] (3E2A2c2 e4 (3d2c2B2 c4 | (3B2c2d2 e4 a4 z4 | (3F2A2c2 f4 (3e2d2c2 d4 | (3B2d2g2 b4 ^g4 z4 |
+[V:Bass] A,,4 E,4 A,,4 E,4 | A,,4 E,4 A,,4 E,4 | F,,4 C,4 F,,4 C,4 | G,,4 D,4 E,,4 B,,4 |
+% ---- B ----
+[V:Melody] A2c2 e2a2 g2e2 c2e2 | f2a2 g2f2 e4 z4 | d2f2 a2d'2 c'2a2 g2e2 | ^g2b2 e'4 z4 e4 |
+[V:Bass] A,,4 E,4 A,,4 E,4 | F,,4 C,4 C,4 G,,4 | D,4 A,,4 C,4 G,,4 | E,,4 B,,4 E,,4 B,,4 |
+% ---- C'（装飾を増やす） ----
+[V:Melody] a4 z2 eg a2e2 c2A2 | f4 z2 ce f2c2 A2F2 | g4 z2 dg b2gd B2G2 | e4 z2 B^d e2^g2 b2e'2 |
+[V:Bass] A,,4 E,4 A,,4 E,4 | F,,4 C,4 F,,4 C,4 | G,,4 D,4 G,,4 D,4 | E,,4 B,,4 E,,4 B,,4 |
+% ---- D'（フィナーレ） ----
+[V:Melody] (3A2c2e2 (3a2e2c2 (3B2d2f2 (3b2f2d2 | (3c2e2a2 (3c'2a2e2 a4 z4 | (3d2f2a2 (3d'2a2f2 (3B2e2^g2 (3b2^g2e2 | !accent!a6 z2 !accent!a8 |]
+[V:Bass] A,,4 E,4 G,,4 D,4 | A,,4 E,4 A,,4 E,4 | D,4 A,,4 E,,4 B,,4 | A,,6 z2 A,,8 |]

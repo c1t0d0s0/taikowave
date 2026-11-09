@@ -1,0 +1,30 @@
+X:1
+T:ちょうちん行進曲
+T:Lantern March
+C:作曲 太鼓ウェーブ オリジナル
+S:太鼓ウェーブのための書き下ろし（2026年）
+Z:TaikoWave (CC0)
+M:4/4
+L:1/8
+Q:1/4=104
+%%score [Melody Bass]
+V:Melody name="トランペット" snm="Tp."
+V:Bass name="低音" snm="低" clef=bass
+K:C
+% ハ長調の行進曲。「タン・タン・タタ・タン」のリズムを繰り返して、8分音符に慣れる
+% %%MIDI program: 56 トランペット / 33 ベース（General MIDI）
+% %%MIDI beat: 小節の1拍目・表拍・裏拍の強さ（0〜127）
+V:Melody
+%%MIDI program 56
+%%MIDI beat 110 95 80 1
+V:Bass
+%%MIDI program 33
+%%MIDI beat 85 70 60 1
+[V:Melody] G2 G2 AB c2 | B2 A2 G4 | E2 E2 FG A2 | G2 F2 E4 |
+[V:Bass] C,4 G,,4 | G,,4 D,4 | A,,4 E,4 | C,4 G,,4 |
+[V:Melody] D2 D2 EF G2 | c2 B2 A4 | G2 E2 F2 D2 | C6 z2 |
+[V:Bass] G,,4 D,4 | A,,4 E,4 | G,,4 D,4 | C,4 G,,4 |
+[V:Melody] e2 e2 dc d2 | c2 B2 c4 | A2 A2 Bc d2 | B2 A2 G4 |
+[V:Bass] C,4 G,,4 | G,,4 C,4 | F,,4 C,4 | G,,4 D,4 |
+[V:Melody] e2 e2 dc B2 | c2 A2 G2 E2 | D2 G2 FE D2 | C8 |]
+[V:Bass] C,4 G,,4 | A,,4 E,4 | G,,4 D,4 | C,8 |]

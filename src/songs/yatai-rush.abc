@@ -1,0 +1,37 @@
+X:1
+T:屋台ラッシュ
+T:Food Stall Rush
+C:作曲 太鼓ウェーブ オリジナル
+S:太鼓ウェーブのための書き下ろし（2026年）
+Z:TaikoWave (CC0)
+M:4/4
+L:1/16
+Q:1/4=100
+%%score [Melody Bass]
+V:Melody name="アコーディオン" snm="アコ"
+V:Bass name="低音" snm="低" clef=bass
+K:Bb
+% にぎやかな屋台の呼び込み。8分音符の間に16分音符の短い連打（「ドドドン」）をはさむ。いちばん細かい音符は16分音符（「むずかしい」向け）
+% %%MIDI program: 21 アコーディオン / 33 ベース（General MIDI）
+% %%MIDI beat: 小節の1拍目・表拍・裏拍の強さ（0〜127）
+V:Melody
+%%MIDI program 21
+%%MIDI beat 115 100 90 1
+V:Bass
+%%MIDI program 33
+%%MIDI beat 78 68 60 1
+% ---- A（呼び込み） ----
+[V:Melody] !accent!B2 d2 fed2 c2 B2 F2z2 | !accent!G2 B2 edc2 B2 A2 F2z2 | !accent!B2 d2 fga2 g2 f2 d2z2 | !accent!c2 cc d2 c2 B4 z4 |
+[V:Bass] B,,3z F,3z B,,3z F,3z | E,,3z B,,3z E,,3z B,,3z | B,,3z F,3z B,,3z F,3z | F,,3z C,3z F,,3z C,3z |
+[V:Melody] !accent!B2 d2 fed2 c2 B2 F2z2 | !accent!G2 B2 edc2 f2 g2 a2z2 | !accent!b2 ag f2 ed c2 dc B2 A2 | !accent!B4 FFF2 !accent!B4 z4 |
+[V:Bass] B,,3z F,3z B,,3z F,3z | E,,3z B,,3z E,,3z B,,3z | F,,3z C,3z F,,3z C,3z | B,,3z F,3z B,,3z z4 |
+% ---- B（行列ができる） ----
+[V:Melody] !accent!fefg f2 d2 edef e2 c2 | !accent!dcde d2 B2 c2 A2 F2z2 | !accent!fefg f2 d2 gfga g2 e2 | !accent!f2 ff g2 ff e2 d2 c2z2 |
+[V:Bass] B,,3z F,3z B,,3z F,3z | F,,3z C,3z F,,3z C,3z | C,3z G,3z C,3z G,3z | F,,3z C,3z F,,3z C,3z |
+[V:Melody] !accent!fefg f2 d2 edef e2 c2 | !accent!dcde d2 B2 G2 ABc2 d2 | !accent!e2 ed c2 cB A2 AG F2 A2 | !accent!B4 z2 FF !accent!B4 z4 |
+[V:Bass] B,,3z F,3z B,,3z F,3z | G,,3z D,3z G,,3z D,3z | F,,3z C,3z F,,3z C,3z | B,,3z F,3z B,,3z z4 |
+% ---- C（大にぎわい） ----
+[V:Melody] !accent!b2 bb a2 aa g2 gg f2 ff | !accent!e2 ee d2 dd c2 dc B2 A2 | !accent!B2 dB F2 BF D2 FD B,4 | !accent!C2 EC A,2 CA, F,4 z4 |
+[V:Bass] E,,3z B,,3z E,,3z B,,3z | F,,3z C,3z F,,3z C,3z | B,,3z F,3z B,,3z F,3z | F,,3z C,3z F,,3z z4 |
+[V:Melody] !accent!b2 bb a2 aa g2 gg f2 ff | !accent!e2 ee d2 dd c2 cc d2 e2 | !accent!f2 fg f2 ed c2 cd c2 BA | !accent!B4 !accent!F4 !accent!B8 |]
+[V:Bass] E,,3z B,,3z E,,3z B,,3z | C,3z G,3z C,3z G,3z | F,,3z C,3z F,,3z C,3z | B,,3z F,,3z B,,8 |]

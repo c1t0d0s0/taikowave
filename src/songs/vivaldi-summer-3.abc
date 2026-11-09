@@ -1,0 +1,42 @@
+X:1
+T:四季「夏」第3楽章
+T:L'estate RV 315 より Presto（冒頭）
+C:作曲 アントニオ・ヴィヴァルディ
+S:協奏曲集「和声と創意の試み」作品8（1725年）、冒頭の第1〜40小節
+Z:c1t0d0s0 (CC0)
+M:3/4
+L:1/16
+Q:"Presto" 1/4=150
+%%score [V1 V2]
+V:V1 name="Violino principale" snm="Vn."
+V:V2 name="Basso continuo" snm="B.c." clef=bass
+K:Gm
+% 再生時の音色と音量。独奏ヴァイオリンがはっきり聞こえるよう、通奏低音は弱めにする
+% %%MIDI program: 40 バイオリン / 42 チェロ（General MIDI）
+% %%MIDI beat: 小節の1拍目・表拍・裏拍の強さ（0〜127）
+V:V1
+%%MIDI program 40
+%%MIDI beat 110 100 95 1
+V:V2
+%%MIDI program 42
+%%MIDI beat 70 60 55 1
+[V:V1] GG,G,G, G,G,G,G, G,G,G,G, | FG,G,G, G,G,G,G, G,G,G,G, | EG,G,G, G,G,G,G, G,G,G,G, | DG,G,G, G,G,G,G, G,2z2 |
+[V:V2] G,G,,G,,G,, G,,G,,G,,G,, G,,G,,G,,G,, | F,G,,G,,G,, G,,G,,G,,G,, G,,G,,G,,G,, | E,G,,G,,G,, G,,G,,G,,G,, G,,G,,G,,G,, | D,G,,G,,G,, G,,G,,G,,G,, G,,2z2 |
+[V:V1] Hz12 | dDDD DDDD DDDD | cDDD DDDD DDDD | BDDD DDDD DDDD |
+[V:V2] Hz12 | DD,D,D, D,D,D,D, D,D,D,D, | CD,D,D, D,D,D,D, D,D,D,D, | B,D,D,D, D,D,D,D, D,D,D,D, |
+[V:V1] ADDD DDDD D2z2 | zdcB AG^F=E DCB,A, | G,G,G,G, G,G,G,G, G,G,G,G, | G,gfe dcBA GFED |
+[V:V2] A,D,D,D, D,D,D,D, D,2z2 | z12 | G,,2G,,2 G,,2G,,2 G,,2G,,2 | G,,2G,,2 G,,2G,,2 G,,2G,,2 |
+[V:V1] CCCC CCCC CCCC | Cbag fedc BAGF | EEEE EEEE EEEE | Ed'c'b ag^f=e dcBA |
+[V:V2] C,2C,2 C,2C,2 C,2C,2 | C,2C,2 C,2C,2 C,2C,2 | E,2E,2 E,2E,2 E,2E,2 | E,2E,2 E,2E,2 E,2E,2 |
+[V:V1] GGGG GGGG GGGG | Gd'c'b ag^f=e dcBA | GGGG GGGG GGGG | dGGG dGGG dGGG |
+[V:V2] G,2G,2 G,2G,2 G,2G,2 | G,2G,2 G,2G,2 G,2G,2 | G,2G,2 G,2G,2 G,2G,2 | G,G,G,G, DG,G,G, DG,G,G, |
+[V:V1] DABc d=e^fg a2z2 | zABc d=e^fg a2z2 | zBcd e^fga b2z2 | zd=e^f gabc' d'2z2 |
+[V:V2] D,DD,D D,DD,D D,DD,D | D,CD,C D,CD,C D,CD,C | D,B,D,B, D,B,D,B, D,B,D,B, | D,A,D,A, D,A,D,A, D,A,D,A, |
+[V:V1] zd=e^f gabc' d'2z2 | zABc d=e^fg a2z2 | zBcd e^fga b2z2 | zd=e^f gabc' d'2z2 |
+[V:V2] D,DD,D D,DD,D D,DD,D | D,CD,C D,CD,C D,CD,C | D,B,D,B, D,B,D,B, D,B,D,B, | D,A,D,A, D,A,D,A, D,A,D,A, |
+[V:V1] bgdB bgdB bgdB | dBGD dBGD dBGD | GDB,G, GDB,G, GDB,G, | G=BGB GBGB GBGB |
+[V:V2] G,,2G,,2 G,,2G,,2 G,,2G,,2 | G,,2G,,2 G,,2G,,2 G,,2G,,2 | G,,2G,,2 G,,2G,,2 G,,2G,,2 | G,,G,G,,G, G,,G,G,,G, G,,G,G,,G, |
+[V:V1] GcGc GcGc GcGc | G^cGc GcGc GcGc | AdAd AdAd AdAd | AdAd AdAd AdAd |
+[V:V2] C,CC,C C,CC,C C,CC,C | A,,A,A,,A, A,,A,A,,A, A,,A,A,,A, | D,DD,D D,DD,D D,DD,D | A,,A,A,,A, A,,A,A,,A, A,,A,A,,A, |
+[V:V1] A^cAc AcAc AcAc | dD=EF GA=B^c dABc | d=efg adef ga=b^c' | d'4 z4 z4 |]
+[V:V2] A,,A,A,,A, A,,A,A,,A, A,,A,A,,A, | D,4 z4 z4 | z12 | D,4 z4 z4 |]

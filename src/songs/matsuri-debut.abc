@@ -1,0 +1,30 @@
+X:1
+T:はじめての祭りばやし
+T:Festival Debut
+C:作曲 太鼓ウェーブ オリジナル
+S:太鼓ウェーブのための書き下ろし（2026年）
+Z:TaikoWave (CC0)
+M:4/4
+L:1/8
+Q:1/4=92
+%%score [Melody Bass]
+V:Melody name="笛" snm="笛"
+V:Bass name="低音" snm="低" clef=bass
+K:C
+% ヨナ抜き音階（ド・レ・ミ・ソ・ラ）の旋律。4分音符が中心の、いちばんやさしい曲
+% %%MIDI program: 73 フルート / 33 ベース（General MIDI）
+% %%MIDI beat: 小節の1拍目・表拍・裏拍の強さ（0〜127）
+V:Melody
+%%MIDI program 73
+%%MIDI beat 110 95 80 1
+V:Bass
+%%MIDI program 33
+%%MIDI beat 85 70 60 1
+[V:Melody] C2 D2 E2 G2 | A2 G2 E4 | G2 A2 c2 A2 | G6 z2 |
+[V:Bass] C,4 G,,4 | A,,4 E,4 | F,,4 C,4 | C,4 G,,4 |
+[V:Melody] E2 G2 A2 G2 | E2 D2 C4 | D2 E2 G2 E2 | D6 z2 |
+[V:Bass] C,4 G,,4 | C,4 G,,4 | A,,4 E,4 | G,,4 D,4 |
+[V:Melody] c2 cc A2 G2 | A2 c2 d4 | c2 A2 G2 E2 | G6 z2 |
+[V:Bass] F,,4 C,4 | F,,4 C,4 | C,4 G,,4 | C,4 G,,4 |
+[V:Melody] A2 GG E2 D2 | E2 G2 A4 | D2 E2 G2 A2 | c8 |]
+[V:Bass] F,,4 C,4 | A,,4 E,4 | G,,4 D,4 | C,8 |]

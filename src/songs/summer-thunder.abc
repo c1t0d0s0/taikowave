@@ -1,0 +1,53 @@
+X:1
+T:夏の雷
+T:Summer Thunder
+C:作曲 太鼓ウェーブ オリジナル
+S:太鼓ウェーブのための書き下ろし（2026年）
+Z:TaikoWave (CC0)
+M:6/8
+L:1/8
+Q:1/4=189
+%%score [Melody Bass]
+V:Melody name="フィドル" snm="フィ"
+V:Bass name="低音" snm="低" clef=bass
+K:Em
+% 6/8 のジグ。夕立の前のように8分音符が駆け続け、ところどころ長い音で雷が鳴る。いちばん細かい音符は8分音符（付点4分 = 126（♩=189）で約0.16秒、「むずかしい」向け）
+% テンポは Q:3/8 ではなく Q:1/4 で書く（譜面の秒の計算と、再生のテンポをそろえるため）
+% %%MIDI program: 110 フィドル / 33 ベース（General MIDI）
+% %%MIDI beat: 小節の1拍目・表拍・裏拍の強さ（0〜127）
+V:Melody
+%%MIDI program 110
+%%MIDI beat 115 100 85 1
+V:Bass
+%%MIDI program 33
+%%MIDI beat 78 68 60 1
+% ---- A（遠くの雷） ----
+[V:Melody] !accent!EFG B2 E | !accent!GBd e2 d | !accent!BAG A2 F | !accent!G2 F2 E2 |
+[V:Bass] E,3 B,,3 | G,,3 D,3 | D,3 A,,3 | B,,3 F,3 |
+[V:Melody] !accent!EFG B2 E | !accent!GBd e2 g | !accent!fed B2 A | !accent!E3 z3 |
+[V:Bass] E,3 B,,3 | G,,3 D,3 | B,,3 F,3 | E,3 z3 |
+% ---- B（駆け出す） ----
+[V:Melody] !accent!efg fed | !accent!Bcd edB | !accent!AGF GAB | !accent!E2 G2 B2 |
+[V:Bass] E,3 B,,3 | G,,3 D,3 | D,3 A,,3 | E,3 B,,3 |
+[V:Melody] !accent!efg fed | !accent!Bcd efg | !accent!fed BAF | !accent!E3 z3 |
+[V:Bass] E,3 B,,3 | G,,3 D,3 | B,,3 F,3 | E,3 z3 |
+% ---- C（ゴロゴロと長い音） ----
+[V:Melody] !accent!g2 f2 a2 | !accent!b3 agf | !accent!e3 def | !accent!g6 |
+[V:Bass] G,,3 D,3 | E,3 B,,3 | A,,3 E,3 | G,,3 D,3 |
+[V:Melody] !accent!a2 g2 e2 | !accent!f3 edc | !accent!B2 A2 c2 | !accent!B6 |
+[V:Bass] D,3 A,,3 | B,,3 F,3 | A,,3 E,3 | E,3 B,,3 |
+% ---- D（雨つぶの連打） ----
+[V:Melody] !accent!BBB BBB | !accent!eBe gBg | !accent!AAA AAA | !accent!dAd fAf |
+[V:Bass] E,3 B,,3 | E,3 B,,3 | A,,3 E,3 | D,3 A,,3 |
+[V:Melody] !accent!GGG GGG | !accent!BGB eGe | !accent!F2 G2 A2 | !accent!B3 z3 |
+[V:Bass] G,,3 D,3 | G,,3 D,3 | B,,3 F,3 | B,,3 z3 |
+% ---- B' ----
+[V:Melody] !accent!efg fed | !accent!Bcd edB | !accent!AGF GAB | !accent!E2 G2 B2 |
+[V:Bass] E,3 B,,3 | G,,3 D,3 | D,3 A,,3 | E,3 B,,3 |
+[V:Melody] !accent!efg fed | !accent!Bcd efg | !accent!fed BAF | !accent!E3 z3 |
+[V:Bass] E,3 B,,3 | G,,3 D,3 | B,,3 F,3 | E,3 z3 |
+% ---- A'（雨上がり） ----
+[V:Melody] !accent!EFG B2 E | !accent!GBd e2 d | !accent!BAG A2 F | !accent!G2 F2 E2 |
+[V:Bass] E,3 B,,3 | G,,3 D,3 | D,3 A,,3 | B,,3 F,3 |
+[V:Melody] !accent!EFG B2 E | !accent!GBd e2 g | !accent!fed B2 F | !accent!E6 |]
+[V:Bass] E,3 B,,3 | G,,3 D,3 | B,,3 F,3 | E,6 |]

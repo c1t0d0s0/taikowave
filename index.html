@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+		<meta name="theme-color" content="#e8380d" />
+		<meta name="description" content="クラシックの名曲に合わせて太鼓を叩くリズムゲーム。PC でもスマホでも遊べます。" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-title" content="太鼓ウェーブ" />
+		<title>太鼓ウェーブ TaikoWave</title>
+		<link rel="icon" href="./favicon.ico" sizes="48x48" />
+		<link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+		<link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
+		/>
+	</head>
+	<body>
+		<div id="app">
+			<header class="banner" aria-hidden="true">
+				<div class="maku"></div>
+				<div class="lanterns" id="lanterns"></div>
+			</header>
+
+			<!-- タイトル -->
+			<section class="screen" id="screen-title">
+				<div class="title-wrap">
+					<h1 class="logo">
+						<span class="logo-drum" aria-hidden="true"></span>
+						<span class="logo-text" data-t="appName"></span>
+						<span class="logo-sub">TaikoWave</span>
+					</h1>
+					<p class="tagline" data-t="tagline"></p>
+					<button class="btn btn-big" id="btn-start" data-t="start"></button>
+					<button class="btn btn-multi" id="btn-multi" data-t="multi" hidden></button>
+					<div class="card howto">
+						<h2 data-t="howTo"></h2>
+						<ul id="howto-list"></ul>
+						<p class="keys" data-html="keys"></p>
+						<p class="keys" data-t="touch"></p>
+					</div>
+					<p class="credits" data-html="credits"></p>
+				</div>
+			</section>
+
+			<!-- 曲選択 -->
+			<section class="screen" id="screen-select" hidden>
+				<div class="select-wrap">
+					<div class="select-head">
+						<button class="btn btn-small btn-ghost" id="btn-select-back" data-t="back"></button>
+						<h2 data-t="chooseSong"></h2>
+					</div>
+					<div class="diff-tabs" id="diff-tabs" role="radiogroup"></div>
+					<ul class="song-list" id="song-list"></ul>
+					<details class="card settings">
+						<summary data-t="settings"></summary>
+						<label><span data-t="musicVolume"></span><input type="range" id="set-music" min="0" max="1" step="0.05" /></label>
+						<label><span data-t="seVolume"></span><input type="range" id="set-se" min="0" max="1" step="0.05" /></label>
+						<label
+							><span data-t="speed"></span><input type="range" id="set-speed" min="0.6" max="1.8" step="0.1" /><output
+								id="out-speed"
+							></output
+						></label>
+						<label
+							><span data-t="offset"></span><input type="range" id="set-offset" min="-150" max="150" step="5" /><output
+								id="out-offset"
+							></output
+						></label>
+						<p class="hint" data-t="offsetHint"></p>
+					</details>
+				</div>
+			</section>
+
+			<!-- 2人プレイの入口 -->
+			<section class="screen" id="screen-multi" hidden>
+				<div class="select-wrap multi-wrap">
+					<div class="select-head">
+						<button class="btn btn-small btn-ghost" id="btn-multi-back" data-t="back"></button>
+						<h2 data-t="multi"></h2>
+					</div>
+					<label class="card name-card"
+						><span data-t="yourName"></span><input id="mp-name" maxlength="12" autocomplete="nickname" enterkeyhint="done"
+					/></label>
+					<div class="card mp-card">
+						<h3 data-t="createRoom"></h3>
+						<div class="mode-buttons">
+							<button class="mode-btn mode-versus" id="mp-create-versus">
+								<b data-t="versus"></b><span data-t="versusDesc"></span>
+							</button>
+							<button class="mode-btn mode-coop" id="mp-create-coop"><b data-t="coop"></b><span data-t="coopDesc"></span></button>
+						</div>
+					</div>
+					<form class="card mp-card" id="mp-join-form">
+						<h3 data-t="joinRoom"></h3>
+						<label class="code-label" for="mp-code" data-t="roomCodeLabel"></label>
+						<div class="code-row">
+							<input
+								id="mp-code"
+								class="code-input"
+								inputmode="numeric"
+								pattern="[0-9]{5}"
+								maxlength="5"
+								autocomplete="off"
+								placeholder="00000"
+								enterkeyhint="go"
+							/>
+							<button class="btn" id="mp-join" type="submit" data-t="join"></button>
+						</div>
+					</form>
+					<p class="mp-status" id="mp-status" role="status"></p>
+				</div>
+			</section>
+
+			<!-- 2人プレイの待合室 -->
+			<section class="screen" id="screen-lobby" hidden>
+				<div class="select-wrap lobby-wrap">
+					<div class="select-head">
+						<button class="btn btn-small btn-ghost" id="lb-leave" data-t="leaveRoom"></button>
+						<h2 id="lb-title"></h2>
+					</div>
+					<div class="card invite" id="lb-invite">
+						<div class="invite-text">
+							<p class="invite-label" data-t="roomCode"></p>
+							<p class="room-code" id="lb-code"></p>
+							<p class="hint" data-t="inviteHint"></p>
+							<div class="invite-actions">
+								<button class="btn btn-small btn-ghost" id="lb-copy" data-t="copyLink"></button>
+								<button class="btn btn-small btn-ghost" id="lb-share" data-t="share" hidden></button>
+							</div>
+						</div>
+						<canvas class="invite-qr" id="lb-qr" width="132" height="132" aria-hidden="true"></canvas>
+					</div>
+					<div class="seats" id="lb-seats"></div>
+					<div class="lb-section">
+						<p class="lb-label" id="lb-diff-label"></p>
+						<div class="diff-tabs" id="lb-diff" role="radiogroup"></div>
+					</div>
+					<div class="lb-section">
+						<p class="lb-label" id="lb-song-label"></p>
+						<ul class="song-list" id="lb-songs"></ul>
+					</div>
+				</div>
+				<div class="lobby-bar">
+					<p class="mp-status" id="lb-status" role="status"></p>
+					<div class="lobby-bar-row">
+						<div class="stamps" id="lb-stamps" aria-label=""></div>
+						<button class="btn" id="lb-ready"></button>
+					</div>
+				</div>
+			</section>
+
+			<!-- プレイ -->
+			<section class="screen" id="screen-play" hidden>
+				<div class="hud">
+					<div class="hud-song" id="hud-song"></div>
+					<div class="hud-score"><span data-t="score"></span><b id="hud-score">0</b></div>
+					<div class="gauge" aria-hidden="true"><div class="gauge-fill" id="gauge-fill"></div><div class="gauge-mark"></div></div>
+					<button class="btn-pause" id="btn-pause" aria-label="pause">II</button>
+					<div class="hud-rival" id="hud-rival" aria-live="off"></div>
+				</div>
+				<div class="stage-wrap"><canvas id="stage"></canvas><div class="play-turn" id="play-turn" hidden></div></div>
+				<div class="overlay" id="ov-loading" hidden>
+					<div class="spinner" aria-hidden="true"></div>
+					<p data-t="loading"></p>
+				</div>
+				<div class="overlay" id="ov-error" hidden>
+					<p id="error-text"></p>
+					<button class="btn" id="btn-error-back" data-t="back"></button>
+				</div>
+				<div class="overlay" id="ov-pause" hidden>
+					<p class="ov-title" data-t="paused"></p>
+					<button class="btn" id="btn-resume" data-t="resume"></button>
+					<button class="btn btn-ghost" id="btn-retry" data-t="retry"></button>
+					<button class="btn btn-ghost" id="btn-quit" data-t="quit"></button>
+				</div>
+				<div class="overlay" id="ov-mquit" hidden>
+					<p class="ov-title" data-t="mquitTitle"></p>
+					<p data-t="mquitHint"></p>
+					<button class="btn" id="btn-mquit-resume" data-t="resume"></button>
+					<button class="btn btn-ghost" id="btn-mquit-leave" data-t="leaveRoom"></button>
+				</div>
+			</section>
+
+			<!-- 結果 -->
+			<section class="screen" id="screen-result" hidden>
+				<div class="result-wrap card">
+					<p class="result-song" id="res-song"></p>
+					<p class="result-clear" id="res-clear"></p>
+					<div class="result-main">
+						<div class="rank-stamp" id="res-rank"></div>
+						<div>
+							<p class="result-label" data-t="score"></p>
+							<p class="result-score" id="res-score"></p>
+							<p class="new-best" id="res-best" hidden data-t="newBest"></p>
+						</div>
+					</div>
+					<dl class="result-grid" id="res-grid"></dl>
+					<div class="result-actions">
+						<button class="btn" id="btn-res-retry" data-t="retry"></button>
+						<button class="btn btn-ghost" id="btn-res-select" data-t="quit"></button>
+					</div>
+				</div>
+			</section>
+
+			<!-- 2人プレイの結果 -->
+			<section class="screen" id="screen-mresult" hidden>
+				<div class="result-wrap card mresult">
+					<p class="result-song" id="mr-song"></p>
+					<p class="result-clear" id="mr-title"></p>
+					<div class="mr-team" id="mr-team"></div>
+					<div class="mr-players" id="mr-players"></div>
+					<p class="mp-status" id="mr-status" role="status"></p>
+					<div class="stamps" id="mr-stamps"></div>
+					<div class="result-actions">
+						<button class="btn" id="mr-rematch" data-t="rematch"></button>
+						<button class="btn btn-ghost" id="mr-lobby" data-t="quit"></button>
+						<button class="btn btn-ghost" id="mr-leave" data-t="leaveRoom"></button>
+					</div>
+				</div>
+			</section>
+
+			<div class="toast" id="toast" role="status" hidden></div>
+		</div>
+		<script type="module" src="./src/main.ts"></script>
+	</body>
+</html>

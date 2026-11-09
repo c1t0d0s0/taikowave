@@ -1,0 +1,43 @@
+X:1
+T:龍の舞
+T:Dragon Dance
+C:作曲 太鼓ウェーブ オリジナル
+S:太鼓ウェーブのための書き下ろし（2026年）
+Z:TaikoWave (CC0)
+M:4/4
+L:1/16
+Q:1/4=172
+%%score [Melody Bass]
+V:Melody name="ピッコロ" snm="ピ"
+V:Bass name="低音" snm="低" clef=bass
+K:Em
+% 龍がうねるように、同じ音の連打とオクターブの跳躍が交互に来る。いちばん細かい音符は16分音符（約0.087秒、「げきむず」向け）
+% %%MIDI program: 72 ピッコロ / 33 ベース（General MIDI）
+% %%MIDI beat: 小節の1拍目・表拍・裏拍の強さ（0〜127）
+V:Melody
+%%MIDI program 72
+%%MIDI beat 115 100 90 1
+V:Bass
+%%MIDI program 33
+%%MIDI beat 90 75 65 1
+% ---- 序（龍が目覚める） ----
+[V:Melody] !accent!E4 E4 E4 EEEE | !accent!E4 G4 B4 e4 | !accent!E2 E2 G2 G2 B2 B2 e2 e2 | !accent!eeee dddd BBBB !accent!e4 |
+[V:Bass] E,,4 E,,4 E,,4 E,,4 | E,,4 G,,4 B,,4 E,4 | E,,8 E,,8 | E,,8 E,,4 E,4 |
+% ---- 舞（跳躍） ----
+[V:Melody] !accent!EeBe GeBe !accent!EeBe GBeg | !accent!fdAd FdAd !accent!fdAd FAdf | !accent!ecGc EcGc !accent!ecGc EGce | !accent!B^dfb ^d'bf^d !accent!b4 z4 |
+[V:Bass] E,,4 E,4 E,,4 E,4 | D,,4 D,4 D,,4 D,4 | C,,4 C,4 C,,4 C,4 | B,,,4 B,,4 B,,,4 z4 |
+[V:Melody] !accent!EeBe GeBe !accent!EeBe GBeg | !accent!fdAd FdAd !accent!fdAd FAdf | !accent!ecGc EcGc !accent!ecGc EGce | !accent!B^dfb af^dB !accent!e4 z4 |
+[V:Bass] E,,4 E,4 E,,4 E,4 | D,,4 D,4 D,,4 D,4 | C,,4 C,4 C,,4 C,4 | B,,,4 B,,4 E,,4 z4 |
+% ---- 足踏み（連打） ----
+[V:Melody] !accent!EEEE eeee EEEE eeee | !accent!GGGG gggg GGGG gggg | !accent!AAAA aaaa BBBB bbbb | !accent!e2 e2 B2 B2 !accent!e4 z4 |
+[V:Bass] E,,4 E,4 E,,4 E,4 | G,,4 G,4 G,,4 G,4 | A,,4 A,4 B,,4 B,4 | E,,4 B,,4 E,,4 z4 |
+[V:Melody] !accent!EEee GGgg BBbb ggee | !accent!AAaa ccc'c' eeaa ccAA | !accent!B2 Bc d2 de f2 fg a2 ab | !accent![eb]4 z4 !accent!B4 z4 |
+[V:Bass] E,,4 E,4 E,,4 E,4 | A,,4 A,4 A,,4 A,4 | B,,4 B,4 B,,4 B,4 | E,,4 z4 B,,4 z4 |
+% ---- 昇り龍（かけ上がり・かけ下り） ----
+[V:Melody] !accent!EFGA Bcde fgab agfe | !accent!dcBA GFED EFGA B4 | !accent!efga bagf edcB AGFE | !accent!^DEF^D B,4 !accent!E4 z4 |
+[V:Bass] E,,4 E,4 E,,4 E,4 | D,,4 D,4 D,,4 D,4 | E,,4 E,4 E,,4 E,4 | B,,4 B,,4 E,,4 z4 |
+[V:Melody] !accent!gfed edcB cBAG AGFE | !accent!FGAB cdef gfga b4 | !accent!b2 ba g2 gf e2 ed B2 Bc | !accent!B4 ^d4 f4 b4 |
+[V:Bass] C,,4 C,4 C,,4 C,4 | D,,4 D,4 D,,4 D,4 | E,,4 E,4 E,,4 E,4 | B,,4 B,,4 B,,4 B,,4 |
+% ---- 結び ----
+[V:Melody] !accent!EeBe GeBe !accent!EeBe GBeg | !accent!AaEa cAea !accent!B^dfb ^d'bf^d | !accent!e2 e2 B2 B2 e2 e2 B2 B2 | !accent!e8 z8 |]
+[V:Bass] E,,4 E,4 E,,4 E,4 | A,,4 A,4 B,,4 B,4 | E,,4 B,,4 E,,4 B,,4 | E,,8 z8 |]

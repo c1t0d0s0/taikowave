@@ -1,0 +1,44 @@
+X:1
+T:祭りのフィナーレ
+T:Grand Finale
+C:作曲 太鼓ウェーブ オリジナル
+S:太鼓ウェーブのための書き下ろし（2026年）
+Z:TaikoWave (CC0)
+M:4/4
+L:1/16
+Q:1/4=160
+%%score [Melody Bass]
+V:Melody name="弦楽" snm="弦"
+V:Bass name="低音" snm="低" clef=bass
+K:D
+% 祭りの締めくくり。弦楽の16分音符が駆け回り、後半でテンポが ♩=160 から ♩=172 に上がる。いちばん細かい音符は16分音符（「げきむず」向け）
+% %%MIDI program: 48 弦楽合奏 / 33 ベース（General MIDI）
+% %%MIDI beat: 小節の1拍目・表拍・裏拍の強さ（0〜127）
+V:Melody
+%%MIDI program 48
+%%MIDI beat 115 100 90 1
+V:Bass
+%%MIDI program 33
+%%MIDI beat 90 75 65 1
+% ---- ファンファーレ ----
+[V:Melody] !accent!DDDD FFFF AAAA d4 | !accent!d2 cB A2 GF E2 FG A4 | !accent!B2 AG F2 ED E2 FE D2 E2 | !accent!F2 FF A2 AA !accent!d4 z4 |
+[V:Bass] D,,4 A,,4 D,4 A,,4 | A,,4 E,4 A,4 E,4 | G,,4 D,4 G,4 D,4 | D,,4 A,,4 D,4 z4 |
+% ---- 駆け回る弦 ----
+[V:Melody] !accent!dcde fedc BcdB AGFE | !accent!DFAd FAdf Adfa !accent!d'4 | !accent!bagf gfed efge c4 | !accent!agfe fedc dcBA !accent!A4 |
+[V:Bass] D,,4 A,,4 D,4 A,,4 | D,,4 A,,4 D,4 A,,4 | E,,4 B,,4 E,4 B,,4 | A,,4 E,4 A,4 E,4 |
+[V:Melody] !accent!dcde fedc BcdB AGFE | !accent!GABc dBGB AFDF !accent!A4 | !accent!Bcde fgab agfe d^cBc | !accent!d4 A4 !accent!d4 z4 |
+[V:Bass] D,,4 A,,4 D,4 A,,4 | G,,4 D,4 G,4 D,4 | A,,4 E,4 A,4 E,4 | D,,4 A,,4 D,4 z4 |
+% ---- ひと息 ----
+[V:Melody] !accent!f2 e2 d2 c2 BcBA A4 | !accent!G2 A2 B2 c2 d4 e4 | !accent!f2 g2 a2 g2 f4 e4 | !accent!e2 ee e2 ee e2 ee e4 |
+[V:Bass] D,,4 A,,4 D,4 A,,4 | G,,4 D,4 G,4 D,4 | D,,4 A,,4 D,4 A,,4 | A,,4 E,4 A,4 E,4 |
+% ---- 加速（♩=172） ----
+[V:Melody] [Q:1/4=172] !accent!DEFG ABcd efga bagf | !accent!edcB AGFE DEFG A4 | !accent!dAFA dAFA eAGA eAGA | !accent!fAdA fAdA !accent!a4 z4 |
+[V:Bass] [Q:1/4=172] D,,4 A,,4 D,4 A,,4 | A,,4 E,4 A,4 E,4 | D,,4 D,4 A,,4 A,4 | D,,4 A,,4 D,4 z4 |
+[V:Melody] !accent!aAaA gGgG fFfF eEeE | !accent!dDdD cCcC BB,BB, AA,AA, | !accent!DFAd fdAF GBdg bgdB | !accent!Acea a4 !accent!A4 z4 |
+[V:Bass] D,,4 D,4 D,,4 D,4 | G,,4 G,4 A,,4 A,4 | D,,4 D,4 G,,4 G,4 | A,,4 E,4 A,,4 z4 |
+% ---- ファンファーレ（ふたたび） ----
+[V:Melody] !accent!DFAd FAdf !accent!dcBA GFED | !accent!d2 cB A2 GF E2 FG A4 | !accent!B2 AG F2 ED E2 FE D2 E2 | !accent!F2 FF A2 AA !accent!d4 z4 |
+[V:Bass] D,,4 A,,4 D,4 A,,4 | A,,4 E,4 A,4 E,4 | G,,4 D,4 G,4 D,4 | D,,4 A,,4 D,4 z4 |
+% ---- 大団円 ----
+[V:Melody] !accent!dcde fedc BcdB AGFE | !accent!DFAd fdAF !accent!d4 !accent!d4 | !accent![DFAd]8 !accent![DFAd]8 | !accent![DFAd']8 z8 |]
+[V:Bass] D,,4 A,,4 D,4 A,,4 | D,,4 A,,4 D,4 A,,4 | D,,8 D,,8 | D,,8 z8 |]

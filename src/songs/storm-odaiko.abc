@@ -1,0 +1,43 @@
+X:1
+T:嵐の大太鼓
+T:Storm Odaiko
+C:作曲 太鼓ウェーブ オリジナル
+S:太鼓ウェーブのための書き下ろし（2026年）
+Z:TaikoWave (CC0)
+M:4/4
+L:1/16
+Q:1/4=168
+%%score [Melody Bass]
+V:Melody name="箏" snm="箏"
+V:Bass name="低音" snm="低" clef=bass
+K:Dm
+% 上下に揺れる16分音符の連続（音の上下でドンとカンが細かく入れ替わる）。いちばん細かい音符は16分音符（「げきむず」向け）
+% %%MIDI program: 107 箏 / 33 ベース（General MIDI）
+% %%MIDI beat: 小節の1拍目・表拍・裏拍の強さ（0〜127）
+V:Melody
+%%MIDI program 107
+%%MIDI beat 115 100 90 1
+V:Bass
+%%MIDI program 33
+%%MIDI beat 90 75 65 1
+% ---- 序（大太鼓の打ち込み） ----
+[V:Melody] !accent!D,4 D,4 D,4 z2 D,D, | !accent!D,4 D,4 F,4 A,4 | !accent!D,2 D,2 F,2 A,2 D2 A,2 F,2 D,2 | !accent!D,2 F,2 A,2 D2 !accent!F4 z4 |
+[V:Bass] D,,4 D,,4 D,,4 z2 D,,D,, | D,,4 D,,4 F,,4 A,,4 | D,,8 D,,8 | D,,8 F,,4 z4 |
+% ---- 嵐 ----
+[V:Melody] !accent!dAdA fdfd !accent!aAfA dAfA | !accent!cGcG ecec !accent!gGeG cGeG | !accent!BFBF dBdB !accent!fFdF BFdF | !accent!A^CEA ^cAEA !accent!e4 z4 |
+[V:Bass] D,,4 D,4 D,,4 D,4 | C,,4 C,4 C,,4 C,4 | B,,,4 B,,4 B,,,4 B,,4 | A,,,4 A,,4 A,,,4 z4 |
+[V:Melody] !accent!dAdA fdfd !accent!aAfA dAfA | !accent!cGcG ecec !accent!gGeG cGeG | !accent!BFBF dBdB !accent!fFdF BFdF | !accent!A^CEA ^cAea !accent!d'4 z4 |
+[V:Bass] D,,4 D,4 D,,4 D,4 | C,,4 C,4 C,,4 C,4 | B,,,4 B,,4 B,,,4 B,,4 | A,,,4 A,,4 D,,4 z4 |
+% ---- 凪（4分・8分でひと息。ところどころ「タッタカ」のはね） ----
+[V:Melody] !accent!f2 fe e2 ed d2 dc c2 cB | d2 e2 f2 g2 a4 z4 | !accent!B4 A4 G4 F4 | E2 F2 G2 A2 ^c4 z4 |
+[V:Bass] D,,4 A,,,4 D,,4 A,,,4 | D,,4 C,,4 F,,4 z4 | G,,4 D,,4 G,,4 D,,4 | A,,,4 E,,4 A,,,4 z4 |
+[V:Melody] !accent!d2 dc B2 BA G2 GF E2 ED | !accent!B2 Bc d2 de f2 fg a4 | !accent!g2 f2 e2 d2 ^c2 d2 e2 ^c2 | !accent!d8 z8 |
+[V:Bass] D,,4 A,,,4 D,,4 A,,,4 | G,,4 C,,4 F,,4 z4 | B,,,4 G,,,4 A,,,4 A,,,4 | D,,8 z8 |
+% ---- 大嵐 ----
+[V:Melody] !accent!DEFG ABcd efed cBAG | !accent!FGAB cdef gagf edcB | !accent!ABcd efga bagf edc^c | !accent!d^cde fefg agfe d4 |
+[V:Bass] D,,4 D,4 D,,4 D,4 | F,,4 F,4 F,,4 F,4 | A,,,4 A,,4 A,,,4 A,,4 | D,,4 D,4 D,,4 D,4 |
+[V:Melody] !accent!dDdD fFfF aAaA fFfF | !accent!cCcC eEeE gGgG eEeE | !accent!BB,BB, dDdD fFfF dDdD | !accent!A^CEA ^cega !accent!a4 !accent!a4 |
+[V:Bass] D,,4 D,4 D,,4 D,4 | C,,4 C,4 C,,4 C,4 | B,,,4 B,,4 B,,,4 B,,4 | A,,,4 A,,4 A,,,4 A,,4 |
+% ---- 結び ----
+[V:Melody] !accent!dAdA fdfd !accent!aAfA dAfA | !accent!bfdB fdBF !accent!a^ceA ^cAE^C | !accent!D2 D2 D2 D2 !accent!D4 D4 | !accent!D8 z8 |]
+[V:Bass] D,,4 D,4 D,,4 D,4 | B,,,4 B,,4 A,,,4 A,,4 | D,,4 D,,4 D,,4 D,,4 | D,,8 z8 |]
