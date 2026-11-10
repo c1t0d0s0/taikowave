@@ -106,7 +106,8 @@ Settings → Secrets and variables → Actions → Variables に、次のリポ�
 | --- | --- |
 | `src/lib/chart.ts` | ABC → 譜面。全声部の音の鳴り始めを集め、強さ・長さ・拍の位置で優先度をつけて、難易度ごとの最小間隔で間引く。音が上がればカン、下がればドン |
 | `src/lib/game.ts` | 判定・得点・コンボ・祭りゲージ・ランク |
-| `src/lib/audio.ts` | 曲の音声の合成と再生、ドン・カンの効果音（WebAudio で合成）、ゲームの時計（`getOutputTimestamp()` で実際に聞こえている位置に合わせる） |
+| `src/lib/audio.ts` | 曲の音声の合成と再生、ドン・カンの音を鳴らす、ゲームの時計（`getOutputTimestamp()` で実際に聞こえている位置に合わせる） |
+| `src/lib/drumsynth.ts` | ドン・カンの波形を計算で作る（皮の整数倍でない倍音と叩いた直後の音程の下がり、胴の中の空気の響き、バチが皮や木のふちに当たる音、小さな部屋の響き）。少しずつ違う音を何通りか作り、続けて叩いても自然に聞こえるようにする |
 | `src/lib/render.ts` | Canvas の描画 |
 | `src/lib/input.ts` | キーボード・クリック・タップ |
 | `src/songs/` | 曲の ABC 譜（music-abc からコピー）と曲情報 |

@@ -6,8 +6,14 @@
  * getOutputTimestamp()（スピーカーから出ている音の時刻）から求められる。
  */
 import abcjs from "abcjs";
+import { seededRand, synthDon, synthKa } from "./drumsynth";
 
 type AudioContextCtor = typeof AudioContext;
+type DrumKind = "don" | "big" | "ka";
+
+/** 太鼓の音を何通り作るか（叩くたびに違う音を選ぶ） */
+const DRUM_VARIANTS = { don: 4, big: 2, ka: 4 } as const;
+const DRUM_SEED: Record<DrumKind, number> = { don: 101, big: 202, ka: 303 };
 
 export class GameAudio {
 	readonly ctx: AudioContext;
@@ -16,6 +22,11 @@ export class GameAudio {
 	private readonly noise: AudioBuffer;
 	private readonly cache = new Map<string, Promise<AudioBuffer>>();
 	private source: AudioBufferSourceNode | null = null;
+	/** 太鼓の音（叩くたびに少しずつ違う音を使う） */
+	private readonly drums: Record<DrumKind, AudioBuffer[]>;
+	private lastPick: Record<DrumKind, number> = { don: -1, big: -1, ka: -1 };
+	/** 前に鳴らした太鼓の音（同じ面をすぐ叩いたら、前の響きを止める） */
+	private ringing: Record<"don" | "ka", GainNode | null> = { don: null, ka: null };
 	/** 曲の頭を鳴らす AudioContext の時刻 */
 	songStart = 0;
 
@@ -39,6 +50,36 @@ export class GameAudio {
 			seed = (seed * 1103515245 + 12345) & 0x7fffffff;
 			data[i] = (seed / 0x3fffffff - 1) * 0.9;
 		}
+
+		this.drums = { don: [], big: [], ka: [] };
+		this.buildDrums();
+	}
+
+	/**
+	 * 太鼓の音を作る。全部で 0.1 秒ほどかかり、スマホではもっとかかるので、
+	 * 画面が固まらないよう1つずつ空き時間に作る（曲の準備のあいだに作り終わる）
+	 */
+	private buildDrums() {
+		const jobs: [DrumKind, number][] = [];
+		for (let i = 0; i < DRUM_VARIANTS.don; i++) jobs.push(["don", i]);
+		for (let i = 0; i < DRUM_VARIANTS.ka; i++) jobs.push(["ka", i]);
+		for (let i = 0; i < DRUM_VARIANTS.big; i++) jobs.push(["big", i]);
+		const next = () => {
+			const job = jobs.shift();
+			if (!job) return;
+			if (this.drums[job[0]].length <= job[1]) this.drums[job[0]].push(this.makeDrum(job[0], job[1]));
+			setTimeout(next, 0);
+		};
+		setTimeout(next, 0);
+	}
+
+	private makeDrum(kind: DrumKind, i: number): AudioBuffer {
+		const sr = this.ctx.sampleRate;
+		const rand = seededRand(DRUM_SEED[kind] + i * 7919);
+		const pcm = kind === "ka" ? synthKa(sr, rand) : synthDon(sr, rand, kind === "big");
+		const b = this.ctx.createBuffer(1, pcm.length, sr);
+		b.getChannelData(0).set(pcm);
+		return b;
 	}
 
 	/** 利用者の操作（クリック・タップ・キー）の中で呼ぶ。iOS ではこれがないと音が出ない */
@@ -170,21 +211,35 @@ export class GameAudio {
 		o.stop(t + decay + 0.02);
 	}
 
+	/** 太鼓の音を鳴らす。続けて叩いても同じ音にならないよう、前と違う音を選ぶ */
+	private strike(kind: DrumKind) {
+		const list = this.drums[kind];
+		// まだ1つもできていなければ、ここで作る
+		if (!list.length) list.push(this.makeDrum(kind, 0));
+		let i = Math.floor(Math.random() * list.length);
+		if (i === this.lastPick[kind] && list.length > 1) i = (i + 1) % list.length;
+		this.lastPick[kind] = i;
+		const t = this.ctx.currentTime;
+		const face = kind === "ka" ? "ka" : "don";
+		// 本物の太鼓も、叩き直すと前の振動はおさえられる
+		this.ringing[face]?.gain.setTargetAtTime(0, t, 0.015);
+		const s = this.ctx.createBufferSource();
+		s.buffer = list[i]!;
+		const g = this.ctx.createGain();
+		s.connect(g).connect(this.se);
+		s.onended = () => g.disconnect();
+		s.start(t);
+		this.ringing[face] = g;
+	}
+
 	/** 「ドン」: 太鼓の真ん中。低く響く音 */
 	don(big = false) {
-		const t = this.ctx.currentTime;
-		const k = big ? 1.25 : 1;
-		this.tone(t, "sine", 150, 52, 0.16, 0.9 * k, 0.42);
-		this.tone(t, "triangle", 95, 60, 0.1, 0.35 * k, 0.22);
-		this.noiseBurst(t, "lowpass", 900, 0.7, 0.35 * k, 0.05);
+		this.strike(big ? "big" : "don");
 	}
 
 	/** 「カン」: 太鼓のふち（木の胴）。乾いた高い音 */
 	ka() {
-		const t = this.ctx.currentTime;
-		this.tone(t, "triangle", 1650, 1400, 0.03, 0.4, 0.07);
-		this.tone(t, "square", 2900, 2600, 0.02, 0.07, 0.04);
-		this.noiseBurst(t, "bandpass", 3200, 2.5, 0.55, 0.045);
+		this.strike("ka");
 	}
 
 	/** 開始前のカウント（拍子木風）。when は AudioContext の時刻 */

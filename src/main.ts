@@ -308,10 +308,11 @@ function applyJudgement(j: Judgement) {
 function onHit(kind: NoteKind, perfMs: number) {
 	const s = session;
 	if (!s || s.paused || s.done || !audio) return;
-	if (kind === "don") audio.don();
+	const j = s.state.hit(kind, gameTime(perfMs));
+	// 大きい音符をドンで叩いたら、低く長く響く音にする
+	if (kind === "don") audio.don(!!j && j.grade !== "miss" && !!s.state.notes[j.note]?.big);
 	else audio.ka();
 	renderer.onHit(kind);
-	const j = s.state.hit(kind, gameTime(perfMs));
 	if (j) applyJudgement(j);
 }
 

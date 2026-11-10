@@ -106,7 +106,8 @@ You can register these repository variables under Settings → Secrets and varia
 | --- | --- |
 | `src/lib/chart.ts` | ABC → chart. Collects the note onsets of all voices, ranks them by loudness, length, and beat position, and thins them out by a minimum interval per difficulty. Rising pitch becomes Kan, falling pitch becomes Don |
 | `src/lib/game.ts` | Judging, scoring, combo, festival gauge, rank |
-| `src/lib/audio.ts` | Rendering and playing the song audio, Don / Kan sound effects (synthesized with WebAudio), and the game clock (aligned with what is actually being heard via `getOutputTimestamp()`) |
+| `src/lib/audio.ts` | Rendering and playing the song audio, playing the Don / Kan sounds, and the game clock (aligned with what is actually being heard via `getOutputTimestamp()`) |
+| `src/lib/drumsynth.ts` | Computes the Don / Kan waveforms: the drumhead's inharmonic modes with a pitch drop, the air inside the shell, the stick hitting the head or the wooden rim, and a small room. Several slightly different variants make repeated hits sound natural |
 | `src/lib/render.ts` | Canvas rendering |
 | `src/lib/input.ts` | Keyboard, click, and tap input |
 | `src/songs/` | Song ABC scores (copied from music-abc) and song metadata |
