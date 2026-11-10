@@ -196,31 +196,33 @@ export function synthDon(sr: number, rand: Rand, big = false): Float32Array {
 	return finish(out, sr, big ? 0.98 : 0.92);
 }
 
-/** 「カン」（太鼓のふち＝木の胴）。乾いた高い音 */
+/**
+ * 「カン」（太鼓のふち＝木の胴）。乾いた「カッ」という音。
+ * 木は響きがすぐに止まるので、音程のはっきりした長い響きは入れない（入れると金属を叩いた音に聞こえる）。
+ * バチと木がぶつかる短い雑音を中心に、すぐ止まる木の響きと、胴と皮がわずかに鳴る低い音を重ねる。
+ */
 export function synthKa(sr: number, rand: Rand): Float32Array {
-	const jitter = () => 1 + (rand() - 0.5) * 0.04;
-	const out = new Float32Array(Math.floor(sr * 0.4));
-	const f1 = 1180 * jitter();
-	// 硬い木の響き（倍音は整数倍にならない）
+	const jitter = () => 1 + (rand() - 0.5) * 0.06;
+	const out = new Float32Array(Math.floor(sr * 0.25));
+	// バチと木がぶつかる「カッ」: 中くらいの高さの木の音・高い当たりの音・低いこもった音
+	addBurst(out, sr, rand, "bandpass", 1500 * jitter(), 1.4, 1.5, 0.007);
+	addBurst(out, sr, rand, "bandpass", 3200 * jitter(), 1.1, 0.7, 0.0025);
+	addBurst(out, sr, rand, "lowpass", 700, 0.7, 0.6, 0.01);
+	// 木の響き（すぐに止まる）
 	addModes(
 		out,
 		sr,
 		[
-			{ f: f1, a: 1, d: 0.05 },
-			{ f: f1 * 2.31, a: 0.55 * jitter(), d: 0.028 },
-			{ f: f1 * 3.47, a: 0.32 * jitter(), d: 0.017 },
-			{ f: f1 * 4.95, a: 0.16, d: 0.01 },
+			{ f: 880 * jitter(), a: 0.45, d: 0.011 },
+			{ f: 1730 * jitter(), a: 0.3, d: 0.007 },
+			{ f: 2650 * jitter(), a: 0.15, d: 0.004 },
 		],
 		null,
-		0.0002,
+		0.0003,
 	);
-	// 胴の木のこもった響きと、ふちを叩いた振動でわずかに鳴る皮
-	addModes(out, sr, [{ f: 430 * jitter(), a: 0.22, d: 0.035 }], null, 0.0004);
-	addModes(out, sr, [{ f: 100, a: 0.12, d: 0.09 }, { f: 159, a: 0.06, d: 0.05 }], { amount: 0.05, tau: 0.03 }, 0.002);
-	// バチと木がぶつかる「カッ」
-	addBurst(out, sr, rand, "bandpass", 4200 * jitter(), 0.9, 1.4, 0.0035);
-	addBurst(out, sr, rand, "highpass", 7000, 0.7, 0.35, 0.0015);
-	saturate(out, 1.3);
-	addRoom(out, sr, 0.16);
-	return finish(out, sr, 0.62);
+	// 胴の中の空気と皮が、ふちを叩いた振動でわずかに鳴る
+	addModes(out, sr, [{ f: 360 * jitter(), a: 0.2, d: 0.018 }], null, 0.0006);
+	addModes(out, sr, [{ f: 100, a: 0.08, d: 0.035 }], { amount: 0.04, tau: 0.03 }, 0.002);
+	addRoom(out, sr, 0.06);
+	return finish(out, sr, 0.66);
 }

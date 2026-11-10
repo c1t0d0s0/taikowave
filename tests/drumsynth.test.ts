@@ -45,9 +45,16 @@ describe("drumsynth", () => {
 		const ka = synthKa(SR, seededRand(4));
 		expect(zeroCrossHz(don, 0.15, 0.4)).toBeLessThan(200);
 		expect(zeroCrossHz(ka, 0.002, 0.03)).toBeGreaterThan(800);
-		// 0.25秒後: ドンはまだ響いているが、カンはほとんど消えている
-		expect(rms(don, 0.25, 0.3) / rms(don, 0, 0.05)).toBeGreaterThan(0.1);
-		expect(rms(ka, 0.25, 0.3) / rms(ka, 0, 0.05)).toBeLessThan(0.05);
+		// 0.15秒後: ドンはまだ響いているが、カンはほとんど消えている
+		expect(rms(don, 0.15, 0.2) / rms(don, 0, 0.05)).toBeGreaterThan(0.1);
+		expect(rms(ka, 0.15, 0.2) / rms(ka, 0, 0.05)).toBeLessThan(0.05);
+	});
+
+	it("カンは木の音なので、響きがすぐに止まる（長く鳴ると金属の音に聞こえる）", () => {
+		for (let seed = 1; seed <= 4; seed++) {
+			const ka = synthKa(SR, seededRand(seed));
+			expect(rms(ka, 0.04, 0.07) / rms(ka, 0, 0.015)).toBeLessThan(0.08);
+		}
 	});
 
 	it("大きい音符のドンは、ふつうのドンより長く響く", () => {
