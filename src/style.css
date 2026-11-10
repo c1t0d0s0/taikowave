@@ -1421,7 +1421,15 @@ body.celebrate::after {
 	box-shadow: none;
 }
 
-/* ---- 演奏中: 2人プレイでは左に自分、右に相手 ---- */
+/* ---- 演奏中: 2人プレイでは左に自分（朱色）、右に相手（藍色） ---- */
+:root {
+	--side-me: #ff5a2e;
+	--side-me-dark: #b3260a;
+	--side-rival: #3aa6ff;
+	--side-rival-dark: #14508f;
+	--side-bar: 30px;
+}
+
 .stage-side {
 	position: absolute;
 	inset: 0;
@@ -1439,7 +1447,22 @@ body[data-net] .stage-me {
 body[data-net] .stage-rival {
 	display: block;
 	left: 50%;
-	border-left: 3px solid var(--sumi);
+}
+
+/* それぞれの側を色の枠で囲む */
+body[data-net] .stage-side::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	border: 4px solid var(--side-me);
+	border-top: 0;
+}
+
+body[data-net] .stage-rival::after {
+	border-color: var(--side-rival);
+	/* 相手側は見るだけなので、少し暗くして自分側を目立たせる */
+	background: rgba(10, 25, 70, 0.22);
 }
 
 .stage-rival.gone canvas {
@@ -1447,47 +1470,206 @@ body[data-net] .stage-rival {
 	filter: grayscale(0.7);
 }
 
+/* 上の端の帯（左は「あなた」、右は相手の名前とスコア） */
 .stage-label {
 	display: none;
 	position: absolute;
-	top: 8px;
-	left: 8px;
-	max-width: calc(100% - 16px);
-	padding: 0.15em 0.8em;
-	border: 2px solid var(--sumi);
-	border-radius: 999px;
-	background: rgba(255, 246, 224, 0.92);
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 2;
+	height: var(--side-bar);
+	padding: 0 10px;
+	align-items: center;
+	gap: 0.5em;
+	background: var(--side-me);
+	color: #fff;
 	font-weight: 900;
-	font-size: 0.85rem;
+	font-size: 0.95rem;
 	white-space: nowrap;
 	overflow: hidden;
-	text-overflow: ellipsis;
+	box-shadow: 0 3px 0 var(--side-me-dark);
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
 	pointer-events: none;
 }
 
 body[data-net] .stage-label {
-	display: block;
-}
-
-.stage-me .stage-label {
-	border-left: 8px solid var(--shu);
+	display: flex;
 }
 
 .stage-rival .stage-label {
-	border-left: 8px solid var(--ai-light);
+	background: var(--side-rival);
+	box-shadow: 0 3px 0 var(--side-rival-dark);
+	/* 相手は右側なので、右寄せにして真ん中の VS から離す */
+	justify-content: flex-end;
+}
+
+.stage-label .tag {
+	flex: none;
+	padding: 0.05em 0.6em;
+	border-radius: 999px;
+	background: #fff;
+	color: var(--side-me-dark);
+	font-size: 0.8em;
+	text-shadow: none;
+}
+
+.stage-rival .stage-label .tag {
+	color: var(--side-rival-dark);
+}
+
+.stage-label .nm {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .stage-label b {
+	flex: none;
 	font-family: var(--display);
 	font-weight: 400;
-	margin-left: 0.4em;
-	color: var(--ai);
 	font-variant-numeric: tabular-nums;
+}
+
+/* 真ん中のしるし */
+.stage-badge {
+	display: none;
+	position: absolute;
+	z-index: 3;
+	top: calc(var(--side-bar) / 2);
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 46px;
+	height: 46px;
+	border-radius: 50%;
+	border: 3px solid var(--sumi);
+	background: linear-gradient(90deg, var(--side-me) 50%, var(--side-rival) 50%);
+	color: #fff;
+	font-family: var(--display);
+	font-size: 1.05rem;
+	line-height: 40px;
+	text-align: center;
+	text-shadow:
+		0 2px 0 var(--sumi),
+		0 0 3px var(--sumi);
+	box-shadow: 0 3px 0 var(--sumi);
+	pointer-events: none;
+}
+
+.stage-badge[data-mode="coop"] {
+	font-family: var(--font);
+	font-size: 1.3rem;
+	text-shadow: none;
+}
+
+body[data-net] .stage-badge {
+	display: block;
+}
+
+/* 始まる前のカウントのあいだだけ出す、大きな案内 */
+.stage-intro {
+	display: none;
+	position: absolute;
+	z-index: 2;
+	left: 50%;
+	top: 34%;
+	transform: translate(-50%, -50%);
+	max-width: calc(100% - 24px);
+	padding: 0.6em 1.2em 0.7em;
+	border: 4px solid var(--sumi);
+	border-radius: 18px;
+	background: var(--side-me);
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	box-shadow: 0 5px 0 var(--sumi);
+	pointer-events: none;
+	opacity: 0;
+}
+
+.stage-intro b {
+	display: block;
+	font-family: var(--display);
+	font-weight: 400;
+	font-size: 2rem;
+	line-height: 1.15;
+	text-shadow: 0 3px 0 var(--side-me-dark);
+}
+
+.stage-intro span {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-weight: 900;
+	font-size: 1rem;
+}
+
+.stage-intro i {
+	position: absolute;
+	left: 50%;
+	top: 100%;
+	transform: translateX(-50%);
+	margin-top: 6px;
+	font-style: normal;
+	font-size: 2rem;
+	color: var(--side-me);
+	text-shadow: 0 3px 0 var(--sumi);
+	animation: intro-arrow 0.6s ease-in-out infinite alternate;
+}
+
+.stage-rival .stage-intro {
+	background: var(--side-rival);
+}
+
+.stage-rival .stage-intro b {
+	text-shadow: 0 3px 0 var(--side-rival-dark);
+}
+
+body[data-net] .stage-intro.play {
+	display: block;
+	animation: intro 3.8s ease-out forwards;
+}
+
+@keyframes intro {
+	0% {
+		opacity: 0;
+		transform: translate(-50%, -50%) scale(0.6);
+	}
+	8% {
+		opacity: 1;
+		transform: translate(-50%, -50%) scale(1.06);
+	}
+	14%,
+	82% {
+		opacity: 1;
+		transform: translate(-50%, -50%) scale(1);
+	}
+	100% {
+		opacity: 0;
+		transform: translate(-50%, -50%) scale(0.9);
+	}
+}
+
+@keyframes intro-arrow {
+	to {
+		margin-top: 16px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-net] .stage-intro.play {
+		animation-duration: 3.8s;
+		animation-timing-function: steps(1, end);
+	}
+	.stage-intro i {
+		animation: none;
+	}
 }
 
 .play-turn {
 	position: absolute;
-	top: 44px;
+	z-index: 2;
+	top: calc(var(--side-bar) + 12px);
 	left: 50%;
 	transform: translateX(-50%);
 	padding: 0.25em 1em;
@@ -1539,47 +1721,153 @@ body[data-net] .btn-pause {
 	font-weight: 900;
 }
 
+/* 2人の欄。左が自分（朱色）、右が相手（藍色）で、間に VS（協力は 🤝） */
 .mr-players {
+	position: relative;
 	width: 100%;
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	gap: 12px;
 }
 
+.mr-vs {
+	position: absolute;
+	z-index: 3;
+	top: 17px;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	border: 3px solid var(--sumi);
+	background: linear-gradient(90deg, var(--side-me) 50%, var(--side-rival) 50%);
+	color: #fff;
+	font-family: var(--display);
+	font-size: 1rem;
+	line-height: 38px;
+	text-align: center;
+	text-shadow:
+		0 2px 0 var(--sumi),
+		0 0 3px var(--sumi);
+	box-shadow: 0 3px 0 var(--sumi);
+	pointer-events: none;
+}
+
+.mr-vs.coop {
+	font-family: var(--font);
+	font-size: 1.25rem;
+	text-shadow: none;
+}
+
 .mr-player {
+	--side: var(--side-me);
+	--side-dark: var(--side-me-dark);
 	position: relative;
 	display: grid;
 	gap: 4px;
 	align-content: start;
-	padding: 12px;
-	border: 3px solid var(--sumi);
+	padding: 0 12px 12px;
+	border: 4px solid var(--side);
 	border-radius: 16px;
+	background: #fff4ef;
+	/* 帯は枠いっぱいに広げる */
+	overflow: visible;
+}
+
+.mr-player.side-rival {
+	--side: var(--side-rival);
+	--side-dark: var(--side-rival-dark);
+	background: #eef6ff;
+}
+
+.mr-head {
+	display: flex;
+	align-items: center;
+	gap: 0.45em;
+	min-width: 0;
+	margin: 0 -12px 6px !important;
+	padding: 6px 12px;
+	border-radius: 11px 11px 0 0;
+	background: var(--side);
+	color: #fff;
+	font-weight: 900;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+	box-shadow: 0 3px 0 var(--side-dark);
+}
+
+.side-rival .mr-head {
+	/* 相手は右側なので右寄せにして、真ん中の VS から離す */
+	justify-content: flex-end;
+}
+
+.mr-head .tag {
+	flex: none;
+	padding: 0.05em 0.6em;
+	border-radius: 999px;
 	background: #fff;
+	color: var(--side-dark);
+	font-size: 0.78em;
+	text-shadow: none;
 }
 
-.mr-player.you {
-	background: #fff8ec;
+.mr-head .nm {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
+/* 勝った人: 金色に光らせ、「勝ち！」の札を付ける */
 .mr-player.winner {
-	background: #fff3c4;
-	border-color: #c98a00;
-	box-shadow: 0 0 0 4px var(--yamabuki);
+	box-shadow:
+		0 0 0 4px var(--yamabuki),
+		0 0 22px 6px rgba(255, 197, 49, 0.75);
+}
+
+.mr-win {
+	position: absolute;
+	z-index: 2;
+	bottom: -16px;
+	left: 50%;
+	padding: 0.1em 0.9em;
+	border: 3px solid var(--sumi);
+	border-radius: 8px;
+	background: var(--yamabuki);
+	color: var(--sumi);
+	font-family: var(--display);
+	font-size: 0.95rem;
+	white-space: nowrap;
+	transform: translateX(-50%) rotate(-4deg);
+	box-shadow: 0 3px 0 var(--sumi);
+	animation: win-pop 0.5s ease-out both;
+}
+
+@keyframes win-pop {
+	from {
+		opacity: 0;
+		scale: 1.8;
+	}
 }
 
 .mr-player.gone {
-	place-content: center;
+	align-content: start;
 	color: #8a7a70;
 	border-style: dashed;
+	background: #f3f3f3;
+}
+
+.mr-player.gone .mr-head {
+	filter: grayscale(0.6);
+}
+
+.mr-gone {
+	padding: 2em 0;
+	text-align: center;
+	font-weight: 900;
 }
 
 .mr-player p {
 	margin: 0;
-}
-
-.mr-name {
-	font-weight: 900;
-	overflow-wrap: anywhere;
 }
 
 .mr-diff {
@@ -1598,7 +1886,7 @@ body[data-net] .btn-pause {
 .mr-score {
 	font-family: var(--display);
 	font-size: 1.7rem;
-	color: var(--shu);
+	color: var(--side);
 	-webkit-text-stroke: 1px var(--sumi);
 	paint-order: stroke fill;
 	font-variant-numeric: tabular-nums;
@@ -1670,13 +1958,34 @@ body[data-net] .btn-pause {
 	.mr-score {
 		font-size: 1.35rem;
 	}
+	:root {
+		--side-bar: 26px;
+	}
 	.stage-label {
-		font-size: 0.72rem;
-		top: 6px;
-		left: 6px;
+		font-size: 0.75rem;
+		padding: 0 6px;
+		gap: 0.35em;
+	}
+	.stage-badge {
+		width: 36px;
+		height: 36px;
+		line-height: 30px;
+		font-size: 0.85rem;
+	}
+	.stage-badge[data-mode="coop"] {
+		font-size: 1rem;
+	}
+	.stage-intro {
+		padding: 0.45em 0.7em 0.55em;
+		border-width: 3px;
+	}
+	.stage-intro b {
+		font-size: 1.35rem;
+	}
+	.stage-intro span {
+		font-size: 0.75rem;
 	}
 	.play-turn {
 		font-size: 0.82rem;
-		top: 36px;
 	}
 }

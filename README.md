@@ -10,7 +10,7 @@ A rhythm game where you drum along to classical masterpieces. Playable on both P
 
 ## How to play
 
-- Notes scroll in from the right. Hit the drum the moment a note reaches the ring on the left
+- Notes fall from the top. Hit the drum the moment a note reaches the ring at the bottom (just above the drum)
 - Red notes (ド) mean the **center** of the drum = "Don"; blue notes (カ) mean the **rim** = "Kan"
 - Keyboard: `F` `J` (or Space) = Don, `D` `K` = Kan, `Esc` = pause. You can also click the drum on screen
 - Phone: tap the center of the drum for Don, the rim (outside the center circle) for Kan. Multi-touch is supported
@@ -38,7 +38,7 @@ How to play:
 4. On the result screen, if both players press "Play again", you play the same song again. The host can go back to the lobby with "Choose another song".
    You can send stamps (👍🔥😂👏🎉) on the result screen and in the lobby
 
-While playing, your own play is shown on the left of the screen and your friend's play (falling notes, judgements, drum, combo) on the right.
+While playing, your own play is shown on the left of the screen and your friend's play (falling notes, judgements, drum, combo) on the right. Your side has a vermilion bar and frame and your friend's side a blue one, and during the count-in each side shows a big "Your drum — hit here!" / "<name>'s play" sign. The result screen uses the same colors (you on the left, your friend on the right), and the winner's card glows gold.
 In Versus, the right side shows the chart at the difficulty your friend picked; in Co-op, it shows your partner's notes in full color (and yours faded).
 You can't pause while playing with a friend (switching to another tab doesn't stop the song either). If your friend leaves, you can still play to the end. In Co-op, a departed partner's remaining notes count as "Miss".
 When the host leaves, the room is closed.

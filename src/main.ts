@@ -4,7 +4,7 @@ import { SONGS, type SongMeta } from "./songs/meta";
 import { buildChart, DIFFICULTIES, sourceFromAbc, type Chart, type Difficulty, type NoteKind, type SourceSong } from "./lib/chart";
 import { GameAudio } from "./lib/audio";
 import { GameState, type Grade, type Judgement } from "./lib/game";
-import { Renderer } from "./lib/render";
+import { COLORS, Renderer, SIDE_COLORS } from "./lib/render";
 import { bindInput } from "./lib/input";
 import { trackEvent, trackPageView } from "./lib/analytics";
 import { load, save } from "./lib/storage";
@@ -260,6 +260,9 @@ async function startGame(song: SongMeta, difficulty: Difficulty, net: NetPlay | 
 	const audioShift = Math.max(0, Math.min(0.3, shift));
 
 	renderer.scrollTime = SCROLL_TIME[difficulty] / settings.speed;
+	// 2人プレイでは、レーンの縁を自分は朱色・相手は藍色にする（1人のときは金色）
+	renderer.edge = net ? SIDE_COLORS.me : COLORS.gold;
+	rivalRenderer.edge = SIDE_COLORS.rival;
 	renderer.beatSeconds = chart.beatSeconds;
 	if (net) {
 		rivalRenderer.scrollTime = SCROLL_TIME[net.rivalDifficulty] / settings.speed;

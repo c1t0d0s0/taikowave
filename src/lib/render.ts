@@ -50,6 +50,9 @@ export const COLORS = {
 	lane: "#3a1d0e",
 };
 
+/** 2人プレイの左右の色（CSS の --side-me / --side-rival と同じ） */
+export const SIDE_COLORS = { me: "#ff5a2e", rival: "#3aa6ff" };
+
 const GRADE_COLOR: Record<Grade, string> = {
 	great: "#ffcf2e",
 	good: "#ffffff",
@@ -92,6 +95,8 @@ export class Renderer {
 	private lastFirework = -1e9;
 	/** 1拍の秒数（提灯を拍に合わせて揺らす） */
 	beatSeconds = 0.5;
+	/** レーンの縁の色（2人プレイでは、自分は朱色・相手は藍色にして見分けやすくする） */
+	edge: string = COLORS.gold;
 	private bg: HTMLCanvasElement | null = null;
 
 	constructor(canvas: HTMLCanvasElement) {
@@ -405,7 +410,7 @@ export class Renderer {
 		grad.addColorStop(1, "rgba(0,0,0,0.25)");
 		g.fillStyle = grad;
 		g.fillRect(lane.x, lane.y, lane.w, lane.h);
-		g.fillStyle = COLORS.gold;
+		g.fillStyle = this.edge;
 		g.fillRect(lane.x - 4, lane.y, 4, lane.h);
 		g.fillRect(lane.x + lane.w, lane.y, 4, lane.h);
 		g.fillRect(lane.x - 4, lane.y + lane.h, lane.w + 8, 4);

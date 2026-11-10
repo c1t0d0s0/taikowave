@@ -167,12 +167,16 @@
 						<canvas id="stage"></canvas>
 						<div class="stage-label" id="stage-label-me"></div>
 						<div class="play-turn" id="play-turn" hidden></div>
+						<div class="stage-intro" id="stage-intro-me" aria-hidden="true"></div>
 					</div>
 					<!-- 相手（2人プレイのときだけ、右半分） -->
 					<div class="stage-side stage-rival" id="stage-rival-wrap" aria-hidden="true">
 						<canvas id="stage-rival"></canvas>
 						<div class="stage-label" id="stage-label-rival"></div>
+						<div class="stage-intro" id="stage-intro-rival"></div>
 					</div>
+					<!-- 2人プレイの真ん中のしるし（対戦は VS、協力は手をつなぐ） -->
+					<div class="stage-badge" id="stage-badge" aria-hidden="true"></div>
 				</div>
 				<div class="overlay" id="ov-loading" hidden>
 					<div class="spinner" aria-hidden="true"></div>

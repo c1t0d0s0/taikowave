@@ -502,9 +502,7 @@ export function initMulti(deps: MultiDeps) {
 		view = "play";
 		const startAt = d.startAt;
 		const net = d.mode === "coop" ? coopPlay(r, chart, owners!, difficulty) : versusPlay(r, song, r.partner()?.difficulty ?? difficulty);
-		$("stage-label-me").textContent = t.you;
-		$("stage-label-rival").textContent = "";
-		$("stage-rival-wrap").classList.remove("gone");
+		showSides(r, d.mode);
 		const base = {
 			startAt: (ctx: BaseAudioContext) => serverToContextTime(startAt, r.serverOffset(), Date.now(), ctx.currentTime),
 			finish: (st: GameState) => void finished(st),
@@ -538,6 +536,36 @@ export function initMulti(deps: MultiDeps) {
 
 	function partnerGone(r: Room) {
 		return roomGone || !r.partner();
+	}
+
+	function sideTag(text: string) {
+		return `<span class="tag">${esc(text)}</span>`;
+	}
+
+	/**
+	 * 演奏画面の左右を、どちらが自分か一目でわかるようにする。
+	 * 左（自分）は朱色、右（相手）は藍色の帯と枠にして、真ん中に VS（協力は 🤝）を置く。
+	 * 始まる前のカウントのあいだだけ、左に「ここを叩こう！」、右に「○○さんの演奏」と大きく出す。
+	 */
+	function showSides(r: Room, mode: Mode) {
+		const myName = r.me()?.name ?? "";
+		const partnerName = r.partner()?.name ?? "";
+		const rivalTag = mode === "coop" ? t.partner : t.rivalTag;
+		$("stage-label-me").innerHTML = `${sideTag(t.you)}<span class="nm">${esc(myName)}</span>`;
+		$("stage-label-rival").innerHTML = `${sideTag(rivalTag)}<span class="nm">${esc(partnerName)}</span>`;
+		$("stage-rival-wrap").classList.remove("gone");
+		$("stage-badge").textContent = mode === "coop" ? "🤝" : "VS";
+		$("stage-badge").dataset.mode = mode;
+		const intro = (id: string, html: string) => {
+			const el = $(id);
+			el.innerHTML = html;
+			// アニメーションを最初からやり直す
+			el.classList.remove("play");
+			void el.offsetWidth;
+			el.classList.add("play");
+		};
+		intro("stage-intro-me", `<b>${esc(t.you)}</b><span>${esc(t.tapHere)}</span><i aria-hidden="true">▼</i>`);
+		intro("stage-intro-rival", `<b>${esc(rivalTag)}</b><span>${esc(t.watching(partnerName))}</span>`);
 	}
 
 	/** 右側の名札。相手がいなくなったら右側を薄くする */
@@ -608,7 +636,7 @@ export function initMulti(deps: MultiDeps) {
 			},
 			tick(st) {
 				publish(() => progressOf(st, encodeMarks(st.results)));
-				label((p) => `${esc(p.name)}<b>${p.score.toLocaleString()}</b>`);
+				label((p) => `${sideTag(t.rivalTag)}<span class="nm">${esc(p.name)}</span><b>${p.score.toLocaleString()}</b>`);
 			},
 			drawRival(rv, _st, now) {
 				const p = roomGone ? undefined : r.partner();
@@ -681,7 +709,7 @@ export function initMulti(deps: MultiDeps) {
 				);
 				play.hud(st);
 				const p = r.partner();
-				label((q) => `${esc(t.partner)}: ${esc(q.name)}`);
+				label((q) => `${sideTag(t.partner)}<span class="nm">${esc(q.name)}</span>`);
 				// 次に叩く人
 				while (cursor < chart.notes.length && chart.notes[cursor]!.time < now - 0.1) cursor++;
 				const o = owners[cursor];
@@ -724,18 +752,33 @@ export function initMulti(deps: MultiDeps) {
 
 	// ---- 結果 ----
 
+	/**
+	 * 結果の1人分の欄。演奏画面と同じく、自分は朱色、相手は藍色の帯と枠にする。
+	 * 帯には「あなた」「相手（協力では相方）」と名前を出し、勝った人には王冠と「勝ち！」の札を付ける。
+	 */
 	function playerColumn(name: string, difficulty: Difficulty, score: number, counts: Counts, maxCombo: number, opts: { you: boolean; winner?: boolean; rank?: Rank; stamp?: string; waiting?: boolean }) {
 		const rank = opts.rank ? `<span class="mr-rank">${t.ranks[opts.rank]}</span>` : "";
 		const rows = (["great", "good", "ok", "miss"] as const)
 			.map((g) => `<div class="${g}"><dt>${t.grades[g]}</dt><dd>${counts[g]}</dd></div>`)
 			.join("");
-		return `<div class="mr-player${opts.you ? " you" : ""}${opts.winner ? " winner" : ""}">
+		return `<div class="mr-player ${opts.you ? "side-me" : "side-rival"}${opts.winner ? " winner" : ""}">
 			${opts.stamp ?? ""}
-			<p class="mr-name">${opts.winner ? "👑 " : ""}${esc(name)}${opts.you ? ` <span class="badge you">${t.you}</span>` : ""}</p>
+			<p class="mr-head">${sideTag(opts.you ? t.you : partnerTag())}<span class="nm">${opts.winner ? "👑 " : ""}${esc(name)}</span></p>
+			${opts.winner ? `<span class="mr-win">${esc(t.win)}</span>` : ""}
 			<p class="mr-diff"><span class="seat-diff diff-${difficulty}">${t.difficulties[difficulty]}</span>${rank}</p>
 			<p class="mr-score">${opts.waiting ? "…" : score.toLocaleString()}</p>
 			<dl class="result-grid">${rows}<div><dt>${t.maxCombo}</dt><dd>${maxCombo}</dd></div></dl>
 		</div>`;
+	}
+
+	/** 相手を呼ぶ名前（対戦は「相手」、協力は「相方」） */
+	function partnerTag() {
+		return current?.owners ? t.partner : t.rivalTag;
+	}
+
+	/** 結果の2人の欄の間に置く VS（協力は 🤝） */
+	function resultBadge() {
+		return current?.owners ? `<div class="mr-vs coop" aria-hidden="true">🤝</div>` : `<div class="mr-vs" aria-hidden="true">VS</div>`;
 	}
 
 	function renderResult() {
@@ -761,7 +804,7 @@ export function initMulti(deps: MultiDeps) {
 						waiting: !partnerDone,
 						...extra,
 					})
-				: `<div class="mr-player gone"><p class="mr-name">${t.partnerLeft}</p></div>`;
+				: `<div class="mr-player side-rival gone"><p class="mr-head">${sideTag(partnerTag())}</p><p class="mr-gone">${t.partnerLeft}</p></div>`;
 
 		if (c.owners) {
 			// 協力: チームの成績
@@ -786,7 +829,7 @@ export function initMulti(deps: MultiDeps) {
 					<p class="mr-team-combo">${t.maxCombo} ${team.maxCombo}</p>
 				</div>`,
 			);
-			setHtml("mr-players", meCol({}) + partnerCol({}));
+			setHtml("mr-players", meCol({}) + resultBadge() + partnerCol({}));
 		} else {
 			// 対戦: 勝ち負け
 			$("mr-team").hidden = true;
@@ -796,8 +839,11 @@ export function initMulti(deps: MultiDeps) {
 			title.textContent = !partnerDone ? t.waitingFinish : gone ? t.partnerLeft : w === "draw" ? t.draw : iWin ? t.win : t.lose;
 			title.classList.toggle("ok", good);
 			const pRank = partner && partnerDone ? rankFor(accuracyOf(partner.counts)) : undefined;
-			setHtml("mr-players", meCol({ winner: !!w && w === r.seat, rank: rankFor(accuracyOf(me.counts)) }) +
-				partnerCol({ winner: !!w && w === r.partnerSeat, rank: pRank }),
+			setHtml(
+				"mr-players",
+				meCol({ winner: !!w && w === r.seat, rank: rankFor(accuracyOf(me.counts)) }) +
+					resultBadge() +
+					partnerCol({ winner: !!w && w === r.partnerSeat, rank: pRank }),
 			);
 		}
 
